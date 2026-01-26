@@ -6,21 +6,17 @@ namespace ConferenceBookingDomain
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== Conference Room Booking System Domain Model Demo ===\n");
+            Console.WriteLine("=== Conference Room Booking System Domain Model ===\n");
             
-            // 1. Create rooms
             var mainConferenceRoom = new ConferenceRoom(
-                "Grand Conference Hall", 
+                "Training Center Hall", 
                 new RoomCapacity(50));
             
-            /* mainConferenceRoom.AddEquipment(EquipmentType.Projector);
-            mainConferenceRoom.AddEquipment(EquipmentType.VideoConferencing);
-            mainConferenceRoom.AddEquipment(EquipmentType.SoundSystem); */
             
             var smallMeetingRoom = new ConferenceRoom(
-                "Executive Meeting Room",
+                "General Meeting Room",
                 new RoomCapacity(8));
-            //smallMeetingRoom.AddEquipment(EquipmentType.Whiteboard);
+            
             
             Console.WriteLine($"Created rooms: {mainConferenceRoom.Name} (Capacity: {mainConferenceRoom.Capacity})");
             Console.WriteLine($"Created rooms: {smallMeetingRoom.Name} (Capacity: {smallMeetingRoom.Capacity})\n");
@@ -35,18 +31,14 @@ namespace ConferenceBookingDomain
                 var booking1 = Booking.Create(
                     mainConferenceRoom,
                     bookingTime,
-                    "john.doe@company.com");
+                    "trainee1@bitcube.tech");
+
                 
-               // booking1.Confirm();
-                //booking1.UpdateMeetingTitle("Quarterly Planning Meeting");
-                
-                //Console.WriteLine($"Created booking: {booking1.Id}");
                 Console.WriteLine($"Room: {booking1.Room.Name}");
                 Console.WriteLine($"Time: {booking1.TimeSlot.StartTime:HH:mm} to {booking1.TimeSlot.EndTime:HH:mm}");
-                //Console.WriteLine($"Status: {booking1.}");
-                //Console.WriteLine($"Meeting Title: {booking1.MeetingTitle}\n");
+                Console.WriteLine($"Status: {booking1.Room.Status}");
+
                 
-                // 3. Test availability
                 var conflictingTime = new TimeSlot(
                     DateTime.UtcNow.AddHours(2).AddMinutes(30),
                     DateTime.UtcNow.AddHours(4));
@@ -54,13 +46,13 @@ namespace ConferenceBookingDomain
                 bool isAvailable = mainConferenceRoom.IsAvailableFor(conflictingTime);
                 Console.WriteLine($"Room available for conflicting time? {isAvailable}");
                 
-                // 4. Test business rules
+
                 try
                 {
                     var invalidBooking = Booking.Create(
                         mainConferenceRoom,
                         conflictingTime,
-                        "jane.smith@company.com");
+                        "trainee2@bitcube.tech");
                     Console.WriteLine("ERROR: Should not allow double booking!");
                 }
                 catch (InvalidOperationException ex)
@@ -68,11 +60,10 @@ namespace ConferenceBookingDomain
                     Console.WriteLine($"Correctly prevented double booking: {ex.Message}\n");
                 }
                 
-                // 5. Demonstrate status transitions
                 booking1.CancelBooking();
                 Console.WriteLine($"Booking cancelled. New status: {booking1.Room.Status}\n");
                 
-                // 6. Test capacity validation
+
                 try
                 {
                     var invalidCapacity = new RoomCapacity(-5);
@@ -86,8 +77,6 @@ namespace ConferenceBookingDomain
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-            
-            Console.WriteLine("=== Demo Complete ===");
             
 
         }
