@@ -36,7 +36,6 @@ A clean, intentional domain model implemented in C# that represents the core con
 
 - Cannot change room status if there are upcoming confirmed bookings
 
-- Maximum of 10 equipment items per room
 
 ### Booking System
 - Bookings cannot exceed 8 hours
@@ -45,7 +44,6 @@ A clean, intentional domain model implemented in C# that represents the core con
 
 - Status transitions follow specific rules (e.g., can't cancel completed bookings)
 
-- Late cancellations (within 1 hour) are marked as NoShow
 
 - Time Management
 End time must be after start time
