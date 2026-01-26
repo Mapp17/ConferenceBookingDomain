@@ -12,3 +12,4 @@ C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\obj\Debug\net8.0\refint\Co
 C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.pdb
 C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.genruntimeconfig.cache
 C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\obj\Debug\net8.0\ref\ConferenceBookingDomain.dll
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.sourcelink.json
