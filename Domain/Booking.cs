@@ -1,34 +1,41 @@
 public class Booking
 {
-    public ConferenceRoom Room { get; set; }
+    public int BookingId { get; set; }
+    public static ConferenceRoom Room { get; set; }
     public TimeSlot TimeSlot { get;}
+    public BookingStatus Status { get; set; }
     public string BookerName { get; set; }
 
-    public Booking(ConferenceRoom room, TimeSlot timeSlot, string bookerName)
+
+    private static readonly List<Booking> _bookings = new();
+    public List<ConferenceRoom> conferenceRooms = new();
+
+    public Booking(int bookingId, ConferenceRoom room, TimeSlot timeSlot, string bookerName)
     {
+        BookingId = bookingId;
         Room = room;
         TimeSlot = timeSlot;
+        Status = BookingStatus.Pending;
         BookerName = bookerName;
-        Room.AddBooking(this);
     }
 
-    public void CancelBooking()
+    public void Confirm()
     {
+        if (Status != BookingStatus.Pending)
+            throw new InvalidOperationException($"Cannot confirm booking in {Status} status");
+        
+        if (!Room.IsAvailableFor(TimeSlot))
+            throw new InvalidOperationException("Room is no longer available for this time slot");
+        
+        Status = BookingStatus.Confirmed;
+    }
+
+    public void Cancel()
+    {
+        if (Status == BookingStatus.Cancelled || Status == BookingStatus.Completed)
+            throw new InvalidOperationException($"Cannot cancel booking in {Status} status");
+
         Room.RemoveBooking(this);
     }
-
-
-    public static Booking Create(ConferenceRoom room, TimeSlot timeSlot, string bookedBy)
-    {
-        if (!room.IsAvailableFor(timeSlot))
-            throw new InvalidOperationException($"Room '{room.Name}' is not available for the requested time slot");
-        
-        var booking = new Booking(room, timeSlot, bookedBy);
-        room.AddBooking(booking);
-        return booking;
-    }
-
-
-
-
+    
 }
