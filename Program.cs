@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ConferenceRoomBookingSystem
 {
@@ -9,7 +10,7 @@ namespace ConferenceRoomBookingSystem
         private static BookingLogic _bookingLogic = new BookingLogic(new List<ConferenceRoom>());
         private static bool _isRunning = true;
 
-        static void Main()
+        static async Task Main()
         {
             InitializeSystem();
             ShowWelcomeMessage();
@@ -18,8 +19,17 @@ namespace ConferenceRoomBookingSystem
             {
                 ShowMainMenu();
                 HandleMenuSelection();
+                try
+            {
+                await _bookingLogic.SaveBookingsAsync("bookings.json");
+                Console.WriteLine("Bookings saved successfully.");
             }
-
+            catch(ConferenceBookingHandleException ex)
+            {
+                Console.WriteLine($"Error saving bookings: {ex.Message}");
+            }
+            }
+            
             ShowExitMessage();
         }
 
