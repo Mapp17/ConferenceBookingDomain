@@ -1,14 +1,16 @@
 public enum BookingStatus
 {
-    Available,
-    Booked,
+    Pending,
+    Confirmed,
     Cancelled,
+    Completed,
+    NoShow
 }
 
-public enum Equipment
+
+public enum RoomStatus
 {
-    Projector,
-    Whiteboard,
-    ConferencePhone,
-    VideoConferencingSystem,
+    Available,
+    UnderMaintenance,
+    OutOfService
 }
