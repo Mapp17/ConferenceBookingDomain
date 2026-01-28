@@ -257,10 +257,10 @@ namespace ConferenceRoomBookingSystem
             if (result.IsSuccess)
             {
                 Console.WriteLine($"\n Booking created successfully!");
-                Console.WriteLine($"   Booking ID: {result.Booking.BookingId}");
+                Console.WriteLine($"   Booking ID: {result.Booking?.BookingId}");
                 Console.WriteLine($"   Room: {Booking.Room.Name}");
-                Console.WriteLine($"   Time: {result.Booking.TimeSlot.StartTime:MMM dd, HH:mm} - {result.Booking.TimeSlot.EndTime:HH:mm}");
-                Console.WriteLine($"   Status: {result.Booking.Status}");
+                Console.WriteLine($"   Time: {result.Booking?.TimeSlot.StartTime:MMM dd, HH:mm} - {result.Booking?.TimeSlot.EndTime:HH:mm}");
+                Console.WriteLine($"   Status: {result.Booking?.Status}");
                 
                 // Ask to confirm booking
                 Console.Write("\nDo you want to confirm this booking now? (Y/N): ");
