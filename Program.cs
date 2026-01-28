@@ -313,7 +313,6 @@ namespace ConferenceRoomBookingSystem
                 case 2:
                     CancelBooking();
                     break;
-                case 3:
                     return;
                 default:
                     Console.WriteLine("\n Invalid option.");
@@ -534,7 +533,7 @@ namespace ConferenceRoomBookingSystem
                 room.UpdateStatus(newStatus);
                 Console.WriteLine($"\n Room status updated to: {newStatus}");
             }
-            catch (InvalidOperationException ex)
+            catch (ConferenceBookingHandleException ex)
             {
                 Console.WriteLine($"\n Cannot change status: {ex.Message}");
             }
@@ -670,7 +669,7 @@ namespace ConferenceRoomBookingSystem
                 var endTime = startTime.AddHours(durationHours);
                 return new TimeSlot(startTime, endTime);
             }
-            catch (ArgumentException ex)
+            catch (ConferenceBookingHandleException ex)
             {
                 Console.WriteLine($"Error creating time slot: {ex.Message}");
                 return null;

@@ -22,18 +22,17 @@ public class Booking
     public void Confirm()
     {
         if (Status != BookingStatus.Pending)
-            throw new InvalidOperationException($"Cannot confirm booking in {Status} status");
-        
+            throw new ConferenceBookingHandleException("Only pending bookings can be confirmed");
         if (!Room.IsAvailableFor(TimeSlot))
-            throw new InvalidOperationException("Room is no longer available for this time slot");
-        
+            throw new ConferenceBookingHandleException("Room is no longer available for this time slot");
+
         Status = BookingStatus.Confirmed;
     }
 
     public void Cancel()
     {
         if (Status == BookingStatus.Cancelled || Status == BookingStatus.Completed)
-            throw new InvalidOperationException($"Cannot cancel booking in {Status} status");
+            throw new ConferenceBookingHandleException($"Cannot cancel booking in {Status} status");
 
         Room.RemoveBooking(this);
     }
