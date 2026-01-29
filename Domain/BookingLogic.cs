@@ -138,7 +138,7 @@ public class BookingLogic
 
     public async Task SaveBookingsAsync(string filePath)
     {
-        filePath = "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\Domain\\bookings.json";
+        filePath = "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Domain\\bookings.json";
         List<Booking> existingBookings = _bookingList.ToList();
         string json = JsonSerializer.Serialize(existingBookings);
         await File.WriteAllTextAsync(filePath, json);
@@ -146,7 +146,7 @@ public class BookingLogic
 
     public async Task<List<Booking>> LoadBookingsAsync(string filePath)
     {
-        filePath = "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\Domain\\bookings.json";
+        filePath = "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Domain\\bookings.json";
         if (!File.Exists(filePath))
             return new List<Booking>();
         

@@ -19,7 +19,7 @@ namespace ConferenceRoomBookingSystem
             {
                 ShowMainMenu();
                 HandleMenuSelection();
-                try
+            try
             {
                 await _bookingLogic.SaveBookingsAsync("bookings.json");
                 Console.WriteLine("Bookings saved successfully.");
@@ -330,7 +330,7 @@ namespace ConferenceRoomBookingSystem
             }
         }
 
-        private static void ViewAllBookings()
+        private async static Task ViewAllBookings()
         {
             var bookings = _bookingLogic.GetAllBookings();
             
@@ -350,7 +350,7 @@ namespace ConferenceRoomBookingSystem
             {
                 var timeDisplay = $"{booking.TimeSlot.StartTime:MM/dd HH:mm}-{booking.TimeSlot.EndTime:HH:mm}";
                 
-                
+                await _bookingLogic.SaveBookingsAsync("Booking.json");
                 Console.WriteLine($"│ {booking.BookingId,4} │ {booking.BookerName,-11} │ {timeDisplay,-20} │ {booking.BookerName,-22} │ {booking.Status,-7} │");
             }
 
