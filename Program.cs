@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ConferenceRoomBookingSystem
 {
@@ -9,7 +10,7 @@ namespace ConferenceRoomBookingSystem
         private static BookingLogic _bookingLogic = new BookingLogic(new List<ConferenceRoom>());
         private static bool _isRunning = true;
 
-        static void Main()
+        static async Task Main()
         {
             InitializeSystem();
             ShowWelcomeMessage();
@@ -18,8 +19,17 @@ namespace ConferenceRoomBookingSystem
             {
                 ShowMainMenu();
                 HandleMenuSelection();
+                try
+            {
+                await _bookingLogic.SaveBookingsAsync("bookings.json");
+                Console.WriteLine("Bookings saved successfully.");
             }
-
+            catch(ConferenceBookingHandleException ex)
+            {
+                Console.WriteLine($"Error saving bookings: {ex.Message}");
+            }
+            }
+            
             ShowExitMessage();
         }
 
@@ -312,6 +322,8 @@ namespace ConferenceRoomBookingSystem
                 case 2:
                     CancelBooking();
                     break;
+                case 3:
+                    return;
                 default:
                     Console.WriteLine("\n Invalid option.");
                     break;
@@ -531,7 +543,7 @@ namespace ConferenceRoomBookingSystem
                 room.UpdateStatus(newStatus);
                 Console.WriteLine($"\n Room status updated to: {newStatus}");
             }
-            catch (InvalidOperationException ex)
+            catch (ConferenceBookingHandleException ex)
             {
                 Console.WriteLine($"\n Cannot change status: {ex.Message}");
             }
@@ -667,7 +679,7 @@ namespace ConferenceRoomBookingSystem
                 var endTime = startTime.AddHours(durationHours);
                 return new TimeSlot(startTime, endTime);
             }
-            catch (ArgumentException ex)
+            catch (ConferenceBookingHandleException ex)
             {
                 Console.WriteLine($"Error creating time slot: {ex.Message}");
                 return null;

@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 public class BookingLogic
 {
     private readonly Dictionary<int, ConferenceRoom> _rooms;
@@ -7,7 +9,7 @@ public class BookingLogic
     public BookingLogic(IEnumerable<ConferenceRoom> rooms)
     {
         _rooms = rooms?.ToDictionary(r => r.RoomId) 
-            ?? throw new ArgumentNullException(nameof(rooms));
+            ?? throw new ConferenceBookingHandleException("Rooms collection cannot be null");
     }
 
 
@@ -111,7 +113,7 @@ public class BookingLogic
             booking.Confirm();
             return true;
         }
-        catch (InvalidOperationException)
+        catch (ConferenceBookingHandleException)
         {
             return false;
         }
@@ -128,19 +130,39 @@ public class BookingLogic
             _bookings.Remove(bookingId);
             return true;
         }
-        catch (InvalidOperationException)
+        catch (ConferenceBookingHandleException)
         {
             return false;
         }
     }
 
+    public async Task SaveBookingsAsync(string filePath)
+    {
+        filePath = "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\Domain\\bookings.json";
+        List<Booking> existingBookings = _bookingList.ToList();
+        string json = JsonSerializer.Serialize(existingBookings);
+        await File.WriteAllTextAsync(filePath, json);
+    }
+
+    public async Task<List<Booking>> LoadBookingsAsync(string filePath)
+    {
+        filePath = "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\Domain\\bookings.json";
+        if (!File.Exists(filePath))
+            return new List<Booking>();
+        
+        string json = await File.ReadAllTextAsync(filePath);
+        var bookings = JsonSerializer.Deserialize<List<Booking>>(json);
+        return bookings ?? new List<Booking>();
+    }
+    
+
     public List<ConferenceRoom> GetAllRooms() => _rooms.Values.ToList();
         
-        public ConferenceRoom GetRoomById(int roomId) => _rooms.TryGetValue(roomId, out var room) ? room : null;
+        public ConferenceRoom? GetRoomById(int roomId) => _rooms.TryGetValue(roomId, out var room) ? room : null;
         
         public List<Booking> GetAllBookings() => _bookingList;
         
-        public Booking GetBookingById(int bookingId) => _bookings.TryGetValue(bookingId, out var booking) ? booking : null;
+        public Booking? GetBookingById(int bookingId) => _bookings.TryGetValue(bookingId, out var booking) ? booking : null;
         
         
 
