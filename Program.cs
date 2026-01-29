@@ -296,7 +296,6 @@ namespace ConferenceRoomBookingSystem
             Console.WriteLine("\n1. View all bookings");
             Console.WriteLine("2. View my bookings");
             Console.WriteLine("3. Cancel a booking");
-            Console.WriteLine("4. Back to main menu");
             Console.Write("\nSelect option (1-4): ");
 
             if (!int.TryParse(Console.ReadLine(), out var choice))
@@ -313,8 +312,6 @@ namespace ConferenceRoomBookingSystem
                 case 2:
                     CancelBooking();
                     break;
-                case 3:
-                    return;
                 default:
                     Console.WriteLine("\n Invalid option.");
                     break;
