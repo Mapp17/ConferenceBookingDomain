@@ -1,19 +1,31 @@
+
+namespace ConferenceRoomBookingSystem
+{
 public class ConferenceRoom
 {
-     public int RoomId { get; }
+    public int Id { get; }
     public string Name { get;  }
-    public RoomCapacity Capacity { get; init; }
-    public RoomStatus roomStatus { get; set; }
+    public RoomType Type { get;}
+    public int Capacity {get;}
+    //public RoomCapacity Capacity { get; init; }
+    //public RoomStatus roomStatus { get; set; }
 
-    public ConferenceRoom(int roomId, string name, RoomCapacity capacity)
+    public ConferenceRoom(int id, string name, int capacity, RoomType type)
+    {
+        Id = id;
+        Name = name;
+        Type = type;
+        Capacity = capacity;
+    }
+    /*public ConferenceRoom(int roomId, string name, RoomCapacity capacity)
     {
         RoomId = roomId;
         Name = name;
         Capacity = capacity;
         roomStatus = RoomStatus.Available;
-    }    
+    } */   
 
-
+/*
     private readonly List<Booking> _bookings = new();
     public IReadOnlyList<Booking> Bookings => _bookings.AsReadOnly();
 
@@ -50,5 +62,6 @@ public class ConferenceRoom
         }
 
         roomStatus = newStatus;
-    }
+    }*/
+}
 }
