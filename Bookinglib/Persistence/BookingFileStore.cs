@@ -1,7 +1,10 @@
 
 using System.Text.Json;
+using ConferenceRoomBookingSystem;
+using Bookinglib;
+using Bookinglib.Domain;
 
-namespace ConferenceRoomBookingSystem
+namespace Bookinglib.Persistence
 {
     public class BookingFileStore
     {

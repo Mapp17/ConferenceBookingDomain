@@ -6,11 +6,3 @@ public enum BookingStatus
     Completed,
     NoShow
 }
-
-
-public enum RoomStatus
-{
-    Available,
-    UnderMaintenance,
-    OutOfService
-}

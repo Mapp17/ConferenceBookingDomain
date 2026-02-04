@@ -1,4 +1,7 @@
-namespace ConferenceRoomBookingSystem
+using ConferenceRoomBookingSystem;
+using Bookinglib;
+
+namespace Bookinglib
 {
     public record BookingRequest
     {

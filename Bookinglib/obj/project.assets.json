@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
-      "projectName": "ConferenceBookingDomain",
-      "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+      "projectUniqueName": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+      "projectName": "Bookinglib",
+      "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
       "packagesPath": "C:\\Users\\pulan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\obj\\",
+      "outputPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pulan\\AppData\\Roaming\\NuGet\\NuGet.Config"
