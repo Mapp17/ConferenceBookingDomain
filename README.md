@@ -63,6 +63,59 @@ Clone the repository
 
 - Run the console application to see the domain model in action.
 
+## Understanding Defensive Design
+demonstrating defensive programming, robust domain modeling, and correct asynchronous behavior rather than just producing a working booking system. The solution intentionally shows how to anticipate failure, invalid input, and unsafe operations, and how to handle them cleanly within the domain.
+
+1. Guard Clauses & Defensive Logic
+
+- The system uses guard clauses at the start of methods and constructors to immediately reject invalid operations. This includes:
+
+- Preventing invalid booking requests (e.g., invalid time ranges, overlapping bookings, invalid room states)
+
+- Preventing operations on empty collections (e.g., attempting queries or saves when no bookings exist)
+
+- Preventing invalid state transitions (e.g., cancelling a completed booking or confirming a cancelled one)
+
+- These checks ensure the domain remains in a valid state at all times and that errors are detected early.
+
+2. Exception Handling
+
+- The system demonstrates intentional exception handling by:
+
+- Throwing exceptions when business rules are violated and the operation cannot continue safely
+
+- Allowing exceptions to bubble up when the caller is responsible for handling them
+
+- Providing clear, meaningful exception messages that explain why an operation failed
+
+- Defining and using at least one custom domain-specific exception to clearly communicate domain errors instead of relying only on generic exceptions
+
+3. Edge Cases in Collections & LINQ
+
+- Special care is taken when working with collections and LINQ:
+
+- Empty collections are handled safely without causing runtime failures
+
+- Missing or incomplete data is accounted for
+
+- Failed queries return safe defaults instead of throwing unexpected exceptions
+
+- Unsafe LINQ methods such as First() are avoided unless a prior check guarantees data exists. Safer alternatives like FirstOrDefault() and explicit checks are preferred.
+
+4. Asynchronous File Operations
+
+- The system persists booking data using asynchronous file operations:
+
+- Booking data is saved to a file asynchronously using async/await
+
+- Booking data is loaded asynchronously at startup
+
+- Async methods are awaited correctly to ensure operations complete before program exit
+
+- I/O failures (such as missing files or read/write errors) are handled safely without crashing the application
+
+- This ensures non-blocking I/O and predictable program flow.
+
 ## License
 The use of MIT LICENSE.
 

@@ -19,11 +19,10 @@ public class ConferenceRoom
 
     public bool IsAvailableFor(TimeSlot timeSlot)
     {
-        // Room must be available
+
         if (roomStatus != RoomStatus.Available)
             return false;
         
-        // Check for overlapping bookings
         var hasOverlappingBooking = _bookings.Any(b => 
             b.Status == BookingStatus.Confirmed && 
             b.TimeSlot.Overlaps(timeSlot));
@@ -41,12 +40,11 @@ public class ConferenceRoom
     }
     public void UpdateStatus(RoomStatus newStatus)
     {
-        // Business rule: Can't make room unavailable if it has upcoming bookings
+        
         if (newStatus != RoomStatus.Available && 
             _bookings.Any(b => b.Status == BookingStatus.Confirmed && b.TimeSlot.StartTime > DateTime.UtcNow))
         {
-            throw new InvalidOperationException(
-                "Cannot change room status with upcoming confirmed bookings");
+            throw new ConferenceBookingHandleException($"Cannot change status to {newStatus} while there are upcoming confirmed bookings.");
         }
 
         roomStatus = newStatus;
