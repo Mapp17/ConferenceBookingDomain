@@ -1,4 +1,11 @@
-namespace ConferenceRoomBookingSystem
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using ConferenceRoomBookingSystem;
+using Bookinglib.Domain;
+
+
+namespace Bookinglib.Logic
 {
     
 public class BookingManager // business rules should be here
