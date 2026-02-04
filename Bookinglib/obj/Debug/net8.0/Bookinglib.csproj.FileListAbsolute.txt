@@ -10,3 +10,15 @@ C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\B
 C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\refint\Bookinglib.dll
 C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.pdb
 C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\ref\Bookinglib.dll
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\bin\Debug\net8.0\Bookinglib.deps.json
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\bin\Debug\net8.0\Bookinglib.dll
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\bin\Debug\net8.0\Bookinglib.pdb
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.AssemblyInfoInputs.cache
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.AssemblyInfo.cs
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.csproj.CoreCompileInputs.cache
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.sourcelink.json
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.dll
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\refint\Bookinglib.dll
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\Bookinglib.pdb
+C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\Bookinglib\obj\Debug\net8.0\ref\Bookinglib.dll

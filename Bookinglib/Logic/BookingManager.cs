@@ -12,7 +12,10 @@ public class BookingManager // business rules should be here
 {
     //Properties
     private readonly List<Booking> _bookings;     
-
+    public BookingManager()
+    {
+        _bookings = new List<Booking>();
+    }
 
     // Methods
     public IReadOnlyList<Booking> GetBookings()
@@ -22,6 +25,8 @@ public class BookingManager // business rules should be here
 
     public Booking CreateBooking(BookingRequest bookingRequest)
     {
+        
+        
         // Guard Clauses
         if(bookingRequest.Room != null)
             throw new ArgumentException("Room must exits");
@@ -32,6 +37,13 @@ public class BookingManager // business rules should be here
                             b.Status == BookingStatus.Confirmed &&
                             bookingRequest.Start < b.End && bookingRequest.End > bookingRequest.Start);
         
+        var room = _bookings.FirstOrDefault(r => r.Room.Id == r.Room.Id);
+
+        if (room is null)
+        {
+            throw new InvalidOperationException("Conference room not found.");
+        }
+
         if(overlaps)
         {
             throw new BookingConflictException();

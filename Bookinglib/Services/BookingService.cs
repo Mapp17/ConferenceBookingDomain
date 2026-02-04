@@ -13,33 +13,35 @@ namespace Bookinglib.Services
         _store = store;
     }
 
-    public async Task<Booking> CreateBookingAsync(BookingRequest request)
+    public async Task<IEnumerable<Booking>> CreateBookingAsync(BookingRequest request)
     {
         // Validate booking date
-        if (request.Date < DateTime.UtcNow.Date)
+        if (request.Start < DateTime.UtcNow.Date)
             throw new InvalidOperationException("Cannot create a booking for a past date.");
 
         // Check for duplicate booking
         var existingBookings = await _store.LoadAsync();
-        if (existingBookings.Any(b => b.Date == request.Date && b.RoomNumber == request.RoomNumber))
+        if (existingBookings.Any(b => b.Start == request.Start && b.Room.Type == request.Room.Type))
             throw new InvalidOperationException("This room is already booked for the selected date.");
 
         // Create booking
         var booking = new Booking(
-            request.CustomerName,
-            request.Date,
-            request.RoomNumber);
+            request.Room,
+            request.Start,
+            request.End);
 
         // Save booking
-        await _store.SaveAsync(booking);
+        await _store.SaveAsync(new List<Booking> { booking });
 
-        return booking;
+        return  new List<Booking> { booking };;
     }
 
-    public Task<IReadOnlyList<Booking>> GetAllBookingsAsync()
-    {
-        return _store.LoadAsync();
-    }
+    public async Task<IReadOnlyList<Booking>> GetAllBookingsAsync()
+{
+    var bookings = await _store.LoadAsync();
+    return bookings.AsReadOnly();
+}
+
 }
 
 }
