@@ -37,11 +37,21 @@ namespace Bookinglib.Services
     }
 
     public async Task<IReadOnlyList<Booking>> GetAllBookingsAsync()
-{
-    var bookings = await _store.LoadAsync();
-    return bookings.AsReadOnly();
-}
+    {
+        var bookings = await _store.LoadAsync();
+        return bookings.AsReadOnly();
+    }
 
+    public async Task<Booking> GetBookingAsync(int id)
+        {
+            var booking = await _store.GetBookingIdAsync(id);
+            
+            if (booking == null)
+                throw new BookingConflictException($"Booking {id} not found");
+            
+            return booking;
+        }
+    
 }
 
 }

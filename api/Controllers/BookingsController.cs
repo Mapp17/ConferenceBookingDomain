@@ -21,6 +21,10 @@ namespace Api.Controllers
         // POST: api/bookings
         // -------------------------------
         [HttpPost]
+        [ProducesResponseType(typeof(BookingResponseDto), 201)]
+        [ProducesResponseType(typeof(object), 400)]
+        [ProducesResponseType(typeof(object), 404)]
+        [ProducesResponseType(typeof(object), 409)]
         public async Task<IActionResult> CreateBooking(CreateBookingRequestDto dto)
         {
             if (dto.Start >= dto.End)
@@ -31,9 +35,6 @@ namespace Api.Controllers
                     Code = "INVALID_INPUT"
                 });
             }
-
-            try
-            {
 
                 var room = new ConferenceRoom(
                     dto.RoomId,
@@ -64,25 +65,10 @@ namespace Api.Controllers
 
                 };
 
-                return Ok(response);
-            }
-            catch (BookingConflictException ex)
-            {
-                return BadRequest(new ErrorResponseDto
-                {
-                    Message = ex.Message,
-                    Code = "DOMAIN_RULE_VIOLATION"
-                });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new ErrorResponseDto
-                {
-                    Message = "An unexpected error occurred.",
-                    Code = "INTERNAL_SERVER_ERROR"
-                });
-            }
+            return Ok(response);
         }
+    
+        
 
         // -------------------------------
         // GET: api/bookings
@@ -117,5 +103,16 @@ namespace Api.Controllers
                 });
             }
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BookingResponseDto), 200)]
+        [ProducesResponseType(typeof(object), 404)]
+        public async Task<IActionResult> GetBooking(int id)
+        {
+            var booking = await _service.GetBookingAsync(id);
+            return Ok(booking);
+        }
+
+        
     }
 }

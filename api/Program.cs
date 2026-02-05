@@ -2,6 +2,8 @@ using System;
 using Bookinglib.Domain;
 using Bookinglib.Services;
 using Bookinglib.Persistence;
+using ConferenceBookingDomain.api.Middleware;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+//app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 // Configure the HTTP request pipeline.
