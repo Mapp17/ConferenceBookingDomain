@@ -6,7 +6,7 @@ using Bookinglib.Domain;
 
 namespace Bookinglib.Persistence
 {
-    public class BookingFileStore
+    public class BookingFileStore 
     {
         private readonly string _filepath;
         public BookingFileStore(string filePath)

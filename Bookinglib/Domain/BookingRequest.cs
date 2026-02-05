@@ -1,7 +1,7 @@
 using ConferenceRoomBookingSystem;
 using Bookinglib;
 
-namespace Bookinglib
+namespace Bookinglib.Domain
 {
     public record BookingRequest
     {
