@@ -1,5 +1,5 @@
 using System;
-using ConferenceRoomBookingSystem;
+
 using Bookinglib.Domain;
 
 namespace Bookinglib.Domain

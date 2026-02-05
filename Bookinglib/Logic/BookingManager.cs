@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConferenceRoomBookingSystem;
 using Bookinglib.Domain;
+using Bookinglib.Logic;
 
 
 namespace Bookinglib.Logic
@@ -29,9 +29,9 @@ public class BookingManager // business rules should be here
         
         // Guard Clauses
         if(bookingRequest.Room != null)
-            throw new ArgumentException("Room must exits");
+            throw new BookingConflictException("Room must exits");
         else if(bookingRequest.Start >= bookingRequest.End)
-            throw new ArgumentException("Invalid time range");
+            throw new BookingConflictException("Invalid time range");
 
         bool overlaps = _bookings.Any(b => b.Room == bookingRequest.Room &&
                             b.Status == BookingStatus.Confirmed &&
@@ -41,12 +41,12 @@ public class BookingManager // business rules should be here
 
         if (room is null)
         {
-            throw new InvalidOperationException("Conference room not found.");
+            throw new BookingConflictException("Conference room not found.");
         }
 
         if(overlaps)
         {
-            throw new BookingConflictException();
+            throw new BookingConflictException("Booking conflicts with an existing booking.");
         }
 
         Booking booking = new Booking(bookingRequest.Room, bookingRequest.Start, bookingRequest.End);

@@ -1,5 +1,7 @@
+using Bookinglib;
 
-namespace ConferenceRoomBookingSystem
+
+namespace Bookinglib.Domain
 {
 public class ConferenceRoom
 {
