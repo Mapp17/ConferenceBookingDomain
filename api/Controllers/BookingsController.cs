@@ -34,35 +34,34 @@ namespace Api.Controllers
 
             try
             {
-                // Convert RoomType string -> enum
-                var roomType = Enum.Parse<RoomType>(dto.RoomType, ignoreCase: true);
 
-                // Create domain room
                 var room = new ConferenceRoom(
                     dto.RoomId,
                     dto.RoomName,
                     dto.Capacity,
-                    roomType.ToString()
+                    dto.RoomType
                 );
 
-                // Create booking request
+
                 var request = new BookingRequest(
                     room,
                     dto.Start,
                     dto.End
                 );
 
-                // Call service
                 var bookings = await _service.CreateBookingAsync(request);
                 var booking = bookings.First();
 
-                // Map domain -> response DTO
+                
                 var response = new BookingResponseDto
                 {
+                    RoomId = booking.Room.Id,
                     RoomName = booking.Room.Name,
-                    RoomType = booking.Room.Type.ToString(),
+                    RoomType = booking.Room.Type,
                     Start = booking.Start,
-                    End = booking.End
+                    End = booking.End,
+                    Capacity = booking.Room.Capacity
+
                 };
 
                 return Ok(response);
@@ -101,7 +100,7 @@ namespace Api.Controllers
                     Bookings = bookings.Select(b => new BookingResponseDto
                     {
                         RoomName = b.Room.Name,
-                        RoomType = b.Room.Type.ToString(),
+                        RoomType = b.Room.Type,
                         Start = b.Start,
                         End = b.End
                     }).ToList()

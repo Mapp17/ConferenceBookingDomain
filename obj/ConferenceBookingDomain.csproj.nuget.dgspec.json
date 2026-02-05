@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj": {}
+    "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj": {
+    "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+        "projectUniqueName": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
         "projectName": "ConferenceBookingDomain",
-        "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
-        "packagesPath": "C:\\Users\\Training Center 1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\obj\\",
+        "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+        "packagesPath": "C:\\Users\\pulan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Training Center 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\pulan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

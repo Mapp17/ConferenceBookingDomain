@@ -8,10 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Bookinglib
-<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\Bookinglib\
-=======
-build_property.ProjectDir = C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\Bookinglib\
->>>>>>> 905930df26941ecbb94e7015764c8354eb0a2b76
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
