@@ -30,6 +30,12 @@ namespace Bookinglib.Persistence
             return bookings ?? new List<Booking>();
         }
 
+        public async Task<Booking> GetBookingIdAsync(int id)
+        {
+            var bookings = await LoadAsync();
+            return bookings.FirstOrDefault(b => b.Room.Id == id);
+        }
+
 
     }
 }
