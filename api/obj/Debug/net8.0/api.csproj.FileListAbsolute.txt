@@ -14,3 +14,11 @@ C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\
 C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\api\obj\Debug\net8.0\api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\api\obj\Debug\net8.0\api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Training Center 1\Mapps\Assignments\New folder\ConferenceBookingDomain\api\obj\Debug\net8.0\api.sourcelink.json
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.csproj.AssemblyReference.cache
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.AssemblyInfoInputs.cache
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.AssemblyInfo.cs
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.sourcelink.json

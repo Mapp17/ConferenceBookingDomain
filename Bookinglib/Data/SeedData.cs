@@ -1,4 +1,6 @@
-namespace ConferenceRoomBookingSystem
+using Bookinglib.Domain;
+
+namespace Bookinglib.Data
 {
     public class SeedData
     {
