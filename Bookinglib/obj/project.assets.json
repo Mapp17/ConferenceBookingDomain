@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Training Center 1\\.nuget\\packages\\": {}
+    "C:\\Users\\pulan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+      "projectUniqueName": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
       "projectName": "Bookinglib",
-      "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
-      "packagesPath": "C:\\Users\\Training Center 1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\obj\\",
+      "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+      "packagesPath": "C:\\Users\\pulan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Training Center 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\pulan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -67,5 +67,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

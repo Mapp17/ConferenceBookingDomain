@@ -1,7 +1,9 @@
 using System;
 using Bookinglib.Domain;
 using Bookinglib.Services;
-using Bookinglib;
+using Bookinglib.Persistence;
+using ConferenceBookingDomain.api.Middleware;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,20 +12,23 @@ var dataDirectory = Path.Combine(
     "Data"
 );
 
-builder.Services.AddSingleton<IBookingStore>(
-    new FileBookingStore(dataDirectory)
+builder.Services.AddSingleton<BookingFileStore>(
+    new BookingFileStore(dataDirectory)
 );
+builder.Services.AddSingleton<BookingService>();
 
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<BookingService>();
+
 
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+//app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 // Configure the HTTP request pipeline.
