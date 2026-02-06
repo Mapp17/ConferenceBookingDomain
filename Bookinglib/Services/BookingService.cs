@@ -39,7 +39,7 @@ namespace Bookinglib.Services
     public async Task<IReadOnlyList<Booking>> GetAllBookingsAsync()
     {
         var bookings = await _store.LoadAsync();
-        return bookings.AsReadOnly();
+        return bookings.AsReadOnly().ToList();
     }
 
     public async Task<Booking> GetBookingAsync(int id)

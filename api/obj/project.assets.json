@@ -498,19 +498,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pulan\\.nuget\\packages\\": {}
+    "C:\\Users\\Training Center 1\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\api\\api.csproj",
-      "packagesPath": "C:\\Users\\pulan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\api\\obj\\",
+      "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\Training Center 1\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pulan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Training Center 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -522,8 +522,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj": {
-              "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj"
+            "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj": {
+              "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj"
             }
           }
         }
