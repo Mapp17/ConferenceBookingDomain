@@ -27,7 +27,7 @@ namespace api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = await _userManager.FindByEmailAsync(dto.Email);
+            var user = await _userManager.FindByNameAsync(dto.Username);
             if (user == null || 
                 !await _userManager.CheckPasswordAsync(user, dto.Password))
             {
