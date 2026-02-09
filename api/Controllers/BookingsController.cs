@@ -3,6 +3,7 @@ using Bookinglib.Domain;
 using Bookinglib.Logic;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceBookingDomain.api.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -20,6 +21,7 @@ namespace Api.Controllers
         // -------------------------------
         // POST: api/bookings
         // -------------------------------
+        [Authorize(Roles = "Employee")]
         [HttpPost]
         [ProducesResponseType(typeof(BookingResponseDto), 201)]
         [ProducesResponseType(typeof(object), 400)]
@@ -73,6 +75,7 @@ namespace Api.Controllers
         // -------------------------------
         // GET: api/bookings
         // -------------------------------
+        [Authorize(Roles= "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllBookings()
         {
@@ -112,6 +115,31 @@ namespace Api.Controllers
             var booking = await _service.GetBookingAsync(id);
             return Ok(booking);
         }
+
+        
+        [Authorize(Roles = "Receptionist")]
+        [HttpGet("assist-booking")]
+        public IActionResult AssistBooking(
+            [FromQuery] DateTime start,
+            [FromQuery] DateTime end,
+            [FromQuery] int requiredCapacity)
+        {
+            var availableRooms = _service.GetAvailableRoomsAsync(
+                start,
+                end,
+                requiredCapacity
+            );
+
+            return Ok(availableRooms);
+        }
+
+        [Authorize(Roles = "FacilitiesManager")]
+        [HttpGet("maintenance")]
+        public IActionResult GetRoomsForMaintenance()
+        {
+            return Ok();
+        }
+
 
         
     }
