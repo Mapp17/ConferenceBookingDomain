@@ -19,11 +19,13 @@ var dataDirectory = Path.Combine(
     "Data"
 );
 
-builder.Services.AddDbContext<BookingDbContext>(options =>
-options.UseSqlite("Data source=BookingSystem.db"));
+builder.Services.AddDbContext<BookingAppDbContext>(options =>
+options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-.AddEntityFrameworkStores<BookingDbContext>().AddDefaultTokenProviders();
+.AddEntityFrameworkStores<BookingAppDbContext>().AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IBookingRepository, EfBookingRepository>();
 
 builder.Services.AddSingleton<BookingFileStore>(
     new BookingFileStore(dataDirectory)

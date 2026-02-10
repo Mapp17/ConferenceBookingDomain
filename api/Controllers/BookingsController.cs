@@ -11,23 +11,27 @@ namespace Api.Controllers
     [Route("api/bookings")]
     public class BookingsController : ControllerBase
     {
-        private readonly BookingService _service;
+        private readonly IBookingRepository _bookingRepo;
+        private readonly IRoomRepository _roomRepo;
 
-        public BookingsController(BookingService service)
+        public BookingsController(IBookingRepository bookingRepo, IRoomRepository roomRepo)
         {
-            _service = service;
+            _bookingRepo = bookingRepo;
+            _roomRepo = roomRepo;
         }
+
 
         // -------------------------------
         // POST: api/bookings
         // -------------------------------
-        [Authorize(Roles = "Employee")]
-        [HttpPost]
+        [Authorize(Roles = "Employee,Receptionist")]
+        [HttpPost("create")]
         [ProducesResponseType(typeof(BookingResponseDto), 201)]
         [ProducesResponseType(typeof(object), 400)]
         [ProducesResponseType(typeof(object), 404)]
         [ProducesResponseType(typeof(object), 409)]
-        public async Task<IActionResult> CreateBooking(CreateBookingRequestDto dto)
+
+        public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequestDto dto)
         {
             if (dto.Start >= dto.End)
             {
@@ -38,100 +42,104 @@ namespace Api.Controllers
                 });
             }
 
-                var room = new ConferenceRoom(
-                    dto.RoomId,
-                    dto.RoomName,
-                    dto.Capacity,
-                    dto.RoomType
-                );
-
-
-                var request = new BookingRequest(
-                    room,
-                    dto.Start,
-                    dto.End
-                );
-
-                var bookings = await _service.CreateBookingAsync(request);
-                var booking = bookings.First();
-
-                
-                var response = new BookingResponseDto
+            //  Fetch room from database
+            var room = await _roomRepo.GetRoomByIdAsync(dto.RoomId);
+            if (room == null)
+            {
+                return NotFound(new ErrorResponseDto
                 {
-                    RoomId = booking.Room.Id,
-                    RoomName = booking.Room.Name,
-                    RoomType = booking.Room.Type,
-                    Start = booking.Start,
-                    End = booking.End,
-                    Capacity = booking.Room.Capacity
+                    Message = "Room not found.",
+                    Code = "ROOM_NOT_FOUND"
+                });
+            }
 
-                };
+            //  Check if room is available
+            var overlappingBookings = await _bookingRepo.GetAllBookingsAsync();
+            bool isOverlapping = overlappingBookings.Any(b =>
+                b.RoomId == room.Id &&
+                b.Start < dto.End &&
+                b.End > dto.Start
+            );
+
+            if (isOverlapping)
+            {
+                return BadRequest(new ErrorResponseDto
+                {
+                    Message = "Room is already booked for the selected time.",
+                    Code = "ROOM_UNAVAILABLE"
+                });
+            }
+
+            // Create booking
+            var booking = new Booking(room, dto.Start, dto.End);
+            await _bookingRepo.AddBookingAsync(booking);
+            await _bookingRepo.SaveChangesAsync();
+
+            //  Map to response DTO
+            var response = new BookingResponseDto
+            {
+                RoomName = room.Name,
+                RoomType = room.Type,
+                Start = booking.Start,
+                End = booking.End,
+                Capacity = room.Capacity
+            };
 
             return Ok(response);
         }
     
-        
+        // Delete Booking
+        [Authorize(Roles="Admin, Employees")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBooking(int id)
+        {
+            var booking = await _bookingRepo.GetBookingByIdAsync(id);
+            if (booking == null)
+                return NotFound();
+
+            await _bookingRepo.DeleteBookingAsync(booking);
+            await _bookingRepo.SaveChangesAsync();
+
+            return NoContent();
+        }
 
         // -------------------------------
         // GET: api/bookings
         // -------------------------------
-        [Authorize(Roles= "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> GetAllBookings()
+        [Authorize(Roles= "Admin, Employees")]
+        [HttpGet("allbookings")]
+        public async Task<ActionResult<List<Booking>>> GetAllBookings()
         {
-            try
-            {
-                var bookings = await _service.GetAllBookingsAsync();
-
-                var response = new BookingListResponseDto
-                {
-                    TotalCount = bookings.Count,
-                    Bookings = bookings.Select(b => new BookingResponseDto
-                    {
-                        RoomName = b.Room.Name,
-                        RoomType = b.Room.Type,
-                        Start = b.Start,
-                        End = b.End
-                    }).ToList()
-                };
-
-                return Ok(response);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new ErrorResponseDto
-                {
-                    Message = "Failed to retrieve bookings.",
-                    Code = "INTERNAL_SERVER_ERROR"
-                });
-            }
-        }
-
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(BookingResponseDto), 200)]
-        [ProducesResponseType(typeof(object), 404)]
-        public async Task<IActionResult> GetBooking(int id)
-        {
-            var booking = await _service.GetBookingAsync(id);
-            return Ok(booking);
+            var bookings = await _bookingRepo.GetAllBookingsAsync();
+            return Ok(bookings);
         }
 
         
         [Authorize(Roles = "Receptionist")]
         [HttpGet("assist-booking")]
-        public IActionResult AssistBooking(
+        public async Task<IActionResult> AssistBooking(
             [FromQuery] DateTime start,
             [FromQuery] DateTime end,
             [FromQuery] int requiredCapacity)
         {
-            var availableRooms = _service.GetAvailableRoomsAsync(
-                start,
-                end,
-                requiredCapacity
-            );
+            //  Fetch available rooms from repository
+            var availableRooms = await _roomRepo.GetAvailableRoomsAsync(start, end);
 
-            return Ok(availableRooms);
+            //  Filter by required capacity
+            var suitableRooms = availableRooms
+                .Where(r => r.Capacity >= requiredCapacity)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.Name,
+                    r.Type,
+                    r.Capacity
+                })
+                .ToList();
+
+            return Ok(suitableRooms);
         }
+
 
         [Authorize(Roles = "FacilitiesManager")]
         [HttpGet("maintenance")]
