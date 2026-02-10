@@ -10,16 +10,14 @@ public class Booking
     public int Id { get; set; }
     public int RoomId { get; set; }
     public ConferenceRoom Room { get; set; }
-    public DateTime Start { get;}
-    public DateTime End {get;}
+    public DateTime Start { get; set; }
+    public DateTime End {get; set;}
 
-    // public TimeSlot timeslot {get;}
     public BookingStatus Status { get; set; }
-    //public string BookerName { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? CancelledAt { get; set; }
 
 
-    //private static readonly List<Booking> _bookings = new();
-    //public List<ConferenceRoom> conferenceRooms = new();
     public Booking() {}
     public Booking( ConferenceRoom room, DateTime start, DateTime end)
     {
@@ -31,32 +29,16 @@ public class Booking
         
     }
 
-    /*public void Confirm()
-    {
-        if (Status != BookingStatus.Pending)
-            throw new ConferenceBookingHandleException("Only pending bookings can be confirmed");
-        if (!Room.IsAvailableFor(TimeSlot))
-            throw new ConferenceBookingHandleException("Room is no longer available for this time slot");
-
-        Status = BookingStatus.Confirmed;
-    }*/
-
     public void Confirm()
     {
         Status = BookingStatus.Confirmed;
     }
-    public void Cancel()
+
+        public void Cancel()
     {
         Status = BookingStatus.Cancelled;
+        CancelledAt = DateTime.UtcNow;
     }
 
-    /*public void Cancel()
-    {
-        if (Status == BookingStatus.Cancelled || Status == BookingStatus.Completed)
-            throw new ConferenceBookingHandleException($"Cannot cancel booking in {Status} status");
-
-        Room.RemoveBooking(this);
-    }*/
-    
 }
 }
