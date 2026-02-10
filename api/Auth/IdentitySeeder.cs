@@ -21,27 +21,26 @@ public static class IdentitySeeder
         }
 
         // 2️⃣ Seed users
-        await CreateUser(userManager, "employee@company.com", "Employee123!", "Employee");
-        await CreateUser(userManager, "employee@company.com", "Employee456!", "Employee");
-        await CreateUser(userManager, "admin@company.com", "Admin123!", "Admin");
-        await CreateUser(userManager, "reception@company.com", "Reception123!", "Receptionist");
-        await CreateUser(userManager, "facilities@company.com", "Facilities123!", "FacilitiesManager");
+        await CreateUser(userManager, "Employee1", "Employee123!", "Employee");
+        await CreateUser(userManager, "Employee2", "Employee456!", "Employee");
+        await CreateUser(userManager, "AdminUser", "Admin123!", "Admin");
+        await CreateUser(userManager, "ReceptionistUser", "Reception123!", "Receptionist");
+        await CreateUser(userManager, "FacilitiesManagerUser", "Facilities123!", "FacilitiesManager");
             
     }
 
     private static async Task CreateUser(
         UserManager<ApplicationUser> userManager,
-        string email,
+        string username,
         string password,
         string role)
     {
-        var user = await userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByNameAsync(username);
         if (user != null) return;
 
         user = new ApplicationUser
         {
-            UserName = email,
-            Email = email,
+            UserName = username,
             EmailConfirmed = true
         };
 

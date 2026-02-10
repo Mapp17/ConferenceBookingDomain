@@ -8,19 +8,22 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\pulan\\.nuget\\packages\\": {}
+    "C:\\Users\\USER\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+      "projectUniqueName": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
       "projectName": "ConferenceBookingDomain",
-      "projectPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
-      "packagesPath": "C:\\Users\\pulan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pulan\\Desktop\\Bitcube\\ConferenceBookingSystem\\ConferenceBookingDomain\\obj\\",
+      "projectPath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+      "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pulan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

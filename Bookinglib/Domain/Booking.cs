@@ -1,6 +1,5 @@
 using System;
 
-using Bookinglib.Domain;
 
 namespace Bookinglib.Domain
 {
@@ -8,7 +7,8 @@ namespace Bookinglib.Domain
 
 public class Booking
 {
-    //public int BookingId { get; set; }
+    public int Id { get; set; }
+    public int RoomId { get; set; }
     public ConferenceRoom Room { get; set; }
     public DateTime Start { get;}
     public DateTime End {get;}
@@ -20,7 +20,7 @@ public class Booking
 
     //private static readonly List<Booking> _bookings = new();
     //public List<ConferenceRoom> conferenceRooms = new();
-
+    public Booking() {}
     public Booking( ConferenceRoom room, DateTime start, DateTime end)
     {
         

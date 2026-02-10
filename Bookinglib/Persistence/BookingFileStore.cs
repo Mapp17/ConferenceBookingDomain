@@ -5,9 +5,16 @@ using Bookinglib.Domain;
 
 namespace Bookinglib.Persistence
 {
-    public class BookingFileStore 
+    public interface IBookingFileStore
     {
-        private readonly string _filepath;
+        Task SaveAsync(IEnumerable<Booking> bookings);
+        Task<List<Booking>> LoadAsync();
+        Task<Booking> GetBookingIdAsync(int id);
+    }
+
+    public class BookingFileStore : IBookingFileStore
+    {
+        private readonly string _filepath = "bookings.json";
         public BookingFileStore(string filePath)
         {
             _filepath = filePath;
