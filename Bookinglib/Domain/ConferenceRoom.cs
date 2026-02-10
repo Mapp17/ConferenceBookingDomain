@@ -1,4 +1,3 @@
-using Bookinglib;
 
 
 namespace Bookinglib.Domain
@@ -11,7 +10,7 @@ public class ConferenceRoom
     public int Capacity {get;}
     //public RoomCapacity Capacity { get; init; }
     //public RoomStatus roomStatus { get; set; }
-
+    public ConferenceRoom() {}
     public ConferenceRoom(int id, string name, int capacity, string type)
     {
         Id = id;

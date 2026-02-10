@@ -8,24 +8,31 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Training Center 1\\.nuget\\packages\\": {}
+    "C:\\Users\\USER\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+      "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
       "projectName": "Bookinglib",
-      "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+      "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
       "packagesPath": "C:\\Users\\Training Center 1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\obj\\",
+      "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Training Center 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
