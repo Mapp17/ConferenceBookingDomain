@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj": {}
+    "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj": {
+    "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+        "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
         "projectName": "Bookinglib",
-        "projectPath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\obj\\",
+        "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
+        "packagesPath": "C:\\Users\\Training Center 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder\\ConferenceBookingDomain\\Bookinglib\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
