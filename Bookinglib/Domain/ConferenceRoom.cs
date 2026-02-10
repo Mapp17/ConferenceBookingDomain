@@ -1,16 +1,18 @@
+using Bookinglib;
 
-namespace ConferenceRoomBookingSystem
+
+namespace Bookinglib.Domain
 {
 public class ConferenceRoom
 {
     public int Id { get; }
     public string Name { get;  }
-    public RoomType Type { get;}
+    public string Type { get; }
     public int Capacity {get;}
     //public RoomCapacity Capacity { get; init; }
     //public RoomStatus roomStatus { get; set; }
 
-    public ConferenceRoom(int id, string name, int capacity, RoomType type)
+    public ConferenceRoom(int id, string name, int capacity, string type)
     {
         Id = id;
         Name = name;

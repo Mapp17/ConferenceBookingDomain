@@ -1,12 +1,11 @@
 
 using System.Text.Json;
-using ConferenceRoomBookingSystem;
 using Bookinglib;
 using Bookinglib.Domain;
 
 namespace Bookinglib.Persistence
 {
-    public class BookingFileStore
+    public class BookingFileStore 
     {
         private readonly string _filepath;
         public BookingFileStore(string filePath)
@@ -29,6 +28,12 @@ namespace Bookinglib.Persistence
             string json = await File.ReadAllTextAsync(_filepath);
             var bookings = JsonSerializer.Deserialize<List<Booking>>(json);
             return bookings ?? new List<Booking>();
+        }
+
+        public async Task<Booking> GetBookingIdAsync(int id)
+        {
+            var bookings = await LoadAsync();
+            return bookings.FirstOrDefault(b => b.Room.Id == id);
         }
 
 

@@ -1,6 +1,6 @@
 public enum RoomType
 {
-    Standard,
-    Training,
-    Boardroom
+    Standard ,
+    Training ,
+    Boardroom 
 }

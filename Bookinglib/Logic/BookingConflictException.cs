@@ -1,10 +1,10 @@
 
 using Bookinglib;
-namespace Bookinglib
+namespace Bookinglib.Logic
 {
     public class BookingConflictException : Exception
     {
-        public BookingConflictException() : base("Booking overlaps with an existing booking.")
+        public BookingConflictException(string message) : base(message)
         {
         }
 
