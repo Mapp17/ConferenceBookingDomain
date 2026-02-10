@@ -1,3 +1,5 @@
+using Bookinglib.Domain;
+
 namespace ConferenceBookingDomain.api.DTOs
 {
 
@@ -9,6 +11,9 @@ namespace ConferenceBookingDomain.api.DTOs
         public string RoomType { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public BookingStatus Status { get; set; }       
+        public DateTime CreatedAt { get; set; }  
+        public DateTime? CancelledAt { get; set; }
 
     }
 }

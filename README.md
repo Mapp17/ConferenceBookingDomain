@@ -63,6 +63,55 @@ Clone the repository
 
 - Run the console application to see the domain model in action.
 
+## Profesional Reasoning
+
+1. Why is removing a column more dangerous than adding one?
+
+- Removing a column permanently deletes data.
+If the data is still needed by:
+
+- Older application versions
+
+The loss is irreversible. Adding columns is backward-compatible.
+
+2. Why are migrations preferred over manual SQL changes?
+
+Migrations:
+
+- Are version-controlled
+
+- Are repeatable
+
+- Work across environments
+
+- Preserve schema history
+
+Manual SQL creates undocumented, inconsistent changes.
+
+3. What could go wrong if two developers modify schema without migrations?
+
+- Conflicting schemas
+
+- Environment drift
+
+- Production bugs that cannot be reproduced
+
+- Data loss
+
+Migrations synchronize team changes.
+
+4. Which schema changes are risky in production, and why?
+
+- Making nullable columns non-nullable
+
+- Changing data types
+
+- Removing columns
+
+- Renaming columns
+
+These can break existing data or running systems.
+
 ## License
 The use of MIT LICENSE.
 
