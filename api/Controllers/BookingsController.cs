@@ -24,7 +24,7 @@ namespace Api.Controllers
         // -------------------------------
         // POST: api/bookings
         // -------------------------------
-        [Authorize(Roles = "Employee,Receptionist")]
+        //[Authorize(Roles = "Employee,Receptionist")]
         [HttpPost("create")]
         [ProducesResponseType(typeof(BookingResponseDto), 201)]
         [ProducesResponseType(typeof(object), 400)]
@@ -89,7 +89,7 @@ namespace Api.Controllers
         }
     
         // Delete Booking
-        [Authorize(Roles="Admin, Employees")]
+        //[Authorize(Roles="Admin, Employees")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
@@ -106,7 +106,7 @@ namespace Api.Controllers
         // -------------------------------
         // GET: api/bookings
         // -------------------------------
-        [Authorize(Roles= "Admin, Employees")]
+        //[Authorize(Roles= "Admin, Employees")]
         [HttpGet("allbookings")]
         public async Task<ActionResult<List<Booking>>> GetAllBookings()
         {
@@ -115,7 +115,7 @@ namespace Api.Controllers
         }
 
         
-        [Authorize(Roles = "Receptionist")]
+        //[Authorize(Roles = "Receptionist")]
         [HttpGet("assist-booking")]
         public async Task<IActionResult> AssistBooking(
             [FromQuery] DateTime start,
@@ -141,7 +141,7 @@ namespace Api.Controllers
         }
 
 
-        [Authorize(Roles = "FacilitiesManager")]
+        //[Authorize(Roles = "FacilitiesManager")]
         [HttpGet("maintenance")]
         public IActionResult GetRoomsForMaintenance()
         {
