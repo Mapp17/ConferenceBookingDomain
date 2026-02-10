@@ -20,7 +20,7 @@ public static class IdentitySeeder
             }
         }
 
-        // 2️⃣ Seed users
+        
         await CreateUser(userManager, "Employee1", "Employee123!", "Employee");
         await CreateUser(userManager, "Employee2", "Employee456!", "Employee");
         await CreateUser(userManager, "AdminUser", "Admin123!", "Admin");

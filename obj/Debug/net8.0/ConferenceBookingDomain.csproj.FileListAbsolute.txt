@@ -36,3 +36,11 @@ C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\o
 C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.dll
 C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\obj\Debug\net8.0\refint\ConferenceBookingDomain.dll
 C:\Users\pulan\Desktop\Bitcube\ConferenceBookingSystem\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.pdb
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.AssemblyInfoInputs.cache
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.AssemblyInfo.cs
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.csproj.CoreCompileInputs.cache
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.sourcelink.json
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.dll
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\refint\ConferenceBookingDomain.dll
+C:\Users\Training Center 1\Mapps\Assignments\New folder (2)\ConferenceBookingDomain\obj\Debug\net8.0\ConferenceBookingDomain.pdb

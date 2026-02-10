@@ -13,6 +13,7 @@ namespace Api.Controllers
     {
         private readonly IBookingRepository _bookingRepo;
         private readonly IRoomRepository _roomRepo;
+        
 
         public BookingsController(IBookingRepository bookingRepo, IRoomRepository roomRepo)
         {
@@ -24,7 +25,7 @@ namespace Api.Controllers
         // -------------------------------
         // POST: api/bookings
         // -------------------------------
-        [Authorize(Roles = "Employee,Receptionist")]
+        [Authorize(Roles = "Employee")]
         [HttpPost("create")]
         [ProducesResponseType(typeof(BookingResponseDto), 201)]
         [ProducesResponseType(typeof(object), 400)]
