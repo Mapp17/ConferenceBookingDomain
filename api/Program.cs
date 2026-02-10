@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Bookinglib.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -112,6 +113,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
+
+SeedData.SeedRooms();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
