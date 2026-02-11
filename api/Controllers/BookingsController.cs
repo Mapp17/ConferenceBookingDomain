@@ -30,9 +30,9 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(object), 400)]
         [ProducesResponseType(typeof(object), 404)]
         [ProducesResponseType(typeof(object), 409)]
-
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequestDto dto)
         {
+
             if (dto.Start >= dto.End)
             {
                 return BadRequest(new ErrorResponseDto
@@ -42,8 +42,7 @@ namespace Api.Controllers
                 });
             }
 
-            //  Fetch room from database
-            var room = await _roomRepo.GetRoomByIdAsync(dto.RoomId);
+            var room = await _roomRepo.GetRoomByIdAsync(dto.Id);
             if (room == null)
             {
                 return NotFound(new ErrorResponseDto
@@ -53,43 +52,59 @@ namespace Api.Controllers
                 });
             }
 
-            //  Check if room is available
+            if (!room.IsActive)
+            {
+                return BadRequest(new ErrorResponseDto
+                {
+                    Message = "Room is inactive and cannot be booked.",
+                    Code = "ROOM_INACTIVE"
+                });
+            }
+
             var overlappingBookings = await _bookingRepo.GetAllBookingsAsync();
             bool isOverlapping = overlappingBookings.Any(b =>
-                b.RoomId == room.Id &&
+                b.Id == room.Id &&
                 b.Start < dto.End &&
                 b.End > dto.Start
             );
 
             if (isOverlapping)
             {
-                return BadRequest(new ErrorResponseDto
+                return Conflict(new ErrorResponseDto
                 {
                     Message = "Room is already booked for the selected time.",
                     Code = "ROOM_UNAVAILABLE"
                 });
             }
 
-            // Create booking
-            var booking = new Booking(room, dto.Start, dto.End);
+            var booking = new Booking
+            {
+                Id = room.Id,                 
+                Start = dto.Start,
+                End = dto.End,
+                Status = BookingStatus.Pending,               
+                CreatedAt = DateTime.UtcNow,
+                CancelledAt = null
+            };
+
             await _bookingRepo.AddBookingAsync(booking);
             await _bookingRepo.SaveChangesAsync();
 
-            //  Map to response DTO
             var response = new BookingResponseDto
             {
                 RoomName = room.Name,
                 RoomType = room.Type,
                 Start = booking.Start,
                 End = booking.End,
-                Capacity = room.Capacity
+                Capacity = room.Capacity,
+                Status = booking.Status
             };
 
-            return Ok(response);
+            return CreatedAtAction(nameof(CreateBooking), new { id = booking.Id }, response);
         }
-    
+
         // Delete Booking
-        [Authorize(Roles="Admin, Employees")]
+        [Authorize(Roles = IdentitySeeder.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
@@ -106,7 +121,7 @@ namespace Api.Controllers
         // -------------------------------
         // GET: api/bookings
         // -------------------------------
-        [Authorize(Roles= "Admin, Employees")]
+        [Authorize(Roles= IdentitySeeder.Admin + ", " + IdentitySeeder.Employee)]
         [HttpGet("allbookings")]
         public async Task<ActionResult<List<Booking>>> GetAllBookings()
         {
@@ -115,7 +130,7 @@ namespace Api.Controllers
         }
 
         
-        [Authorize(Roles = "Receptionist")]
+        [Authorize(Roles = IdentitySeeder.Receptionist)]
         [HttpGet("assist-booking")]
         public async Task<IActionResult> AssistBooking(
             [FromQuery] DateTime start,
@@ -141,7 +156,7 @@ namespace Api.Controllers
         }
 
 
-        [Authorize(Roles = "FacilitiesManager")]
+        [Authorize(Roles = IdentitySeeder.FacilitiesManager)]
         [HttpGet("maintenance")]
         public IActionResult GetRoomsForMaintenance()
         {
