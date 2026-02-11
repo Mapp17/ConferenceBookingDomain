@@ -27,6 +27,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<BookingAppDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IBookingRepository, EfBookingRepository>();
+builder.Services.AddScoped<IRoomRepository, EfRoomRepository>();
 
 builder.Services.AddSingleton<BookingFileStore>(
     new BookingFileStore(dataDirectory)
@@ -106,6 +107,7 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+    await RoomSeeder.SeedAsync(scope.ServiceProvider.GetRequiredService<BookingAppDbContext>());
     await IdentitySeeder.SeedAsync(userManager,roleManager);
 }
 

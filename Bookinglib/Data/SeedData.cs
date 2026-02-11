@@ -2,7 +2,7 @@ using Bookinglib.Domain;
 
 namespace Bookinglib.Data
 {
-    public class SeedData
+    public static class SeedData
     {
 
     

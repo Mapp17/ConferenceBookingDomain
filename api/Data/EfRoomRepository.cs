@@ -21,7 +21,7 @@ public class EfRoomRepository : IRoomRepository
 
     public async Task<ConferenceRoom?> GetRoomByIdAsync(int id)
     {
-        return await _context.ConferenceRooms.FindAsync(id).AsTask();
+        return await _context.ConferenceRooms.FindAsync(id);
     }
 
     public async Task<List<ConferenceRoom>> GetAvailableRoomsAsync(DateTime start, DateTime end)

@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "b+bHzrkM1xk=",
   "success": true,
   "projectFilePath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+=======
+  "dgSpecHash": "1Ke7YmyIyic=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\ConferenceBookingDomain.csproj",
+>>>>>>> 331da30f1d0aa594923dc1a3cd773ed181a577ee
   "expectedPackageFiles": [],
   "logs": []
 }

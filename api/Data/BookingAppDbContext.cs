@@ -9,7 +9,7 @@ public class BookingAppDbContext : IdentityDbContext<ApplicationUser, IdentityRo
 
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<ConferenceRoom> ConferenceRooms { get; set; }
-
+    public DbSet<Session> Sessions { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -18,6 +18,8 @@ public class BookingAppDbContext : IdentityDbContext<ApplicationUser, IdentityRo
             .HasKey(b => b.Id);
         builder.Entity<ConferenceRoom>()
             .HasKey(cr => cr.Id);
+        builder.Entity<Session>()
+            .HasKey(s => s.Id);
     }
 
 }
