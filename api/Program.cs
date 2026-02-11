@@ -28,6 +28,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<IBookingRepository, EfBookingRepository>();
 builder.Services.AddScoped<IRoomRepository, EfRoomRepository>();
 
+
 builder.Services.AddSingleton<BookingFileStore>(
     new BookingFileStore(dataDirectory)
 );
@@ -103,12 +104,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var services = scope.ServiceProvider;
 
-    await RoomSeeder.SeedAsync(scope.ServiceProvider.GetRequiredService<BookingAppDbContext>());
-    await IdentitySeeder.SeedAsync(userManager,roleManager);
+    var context = services.GetRequiredService<BookingAppDbContext>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    await context.Database.MigrateAsync();  
+
+    await RoomSeeder.SeedAsync(context);
+    await IdentitySeeder.SeedAsync(userManager, roleManager);
 }
+
 
 app.UseAuthentication();
 app.UseAuthorization();

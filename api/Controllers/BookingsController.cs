@@ -42,7 +42,8 @@ namespace Api.Controllers
                 });
             }
 
-            var room = await _roomRepo.GetRoomByIdAsync(dto.Id);
+            var room = await _roomRepo.GetRoomByIdAsync(dto.RoomId);
+
             if (room == null)
             {
                 return NotFound(new ErrorResponseDto
@@ -63,7 +64,7 @@ namespace Api.Controllers
 
             var overlappingBookings = await _bookingRepo.GetAllBookingsAsync();
             bool isOverlapping = overlappingBookings.Any(b =>
-                b.Id == room.Id &&
+                b.RoomId == room.Id &&
                 b.Start < dto.End &&
                 b.End > dto.Start
             );
@@ -79,7 +80,7 @@ namespace Api.Controllers
 
             var booking = new Booking
             {
-                Id = room.Id,                 
+                RoomId = room.Id,                 
                 Start = dto.Start,
                 End = dto.End,
                 Status = BookingStatus.Pending,               

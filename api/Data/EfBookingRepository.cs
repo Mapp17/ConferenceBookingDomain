@@ -30,8 +30,11 @@ public class EfBookingRepository : IBookingRepository
 
     public async Task<List<Booking>> GetAllBookingsAsync()
     {
-        return await _context.Bookings.ToListAsync();
+        return await _context.Bookings
+            .Include(b => b.Room)
+            .ToListAsync();
     }
+
 
     public async Task SaveChangesAsync()
     {

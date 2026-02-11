@@ -30,7 +30,7 @@ public static class RoomSeeder
         }
 
 
-        else if (!context.Bookings.Any())
+        if (!context.Bookings.Any())
         {
             var room = context.ConferenceRooms.First(); 
 
@@ -47,7 +47,7 @@ public static class RoomSeeder
             await context.SaveChangesAsync();
         }
 
-        else if (!context.Sessions.Any())
+        if (!context.Sessions.Any())
         {
             context.Sessions.Add(new Session
             {
