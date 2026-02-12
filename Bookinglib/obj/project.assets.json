@@ -13,19 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
       "projectName": "Bookinglib",
       "projectPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
       "packagesPath": "C:\\Users\\Training Center 1\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
-      "projectName": "Bookinglib",
-      "projectPath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\Bookinglib.csproj",
-      "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\USER\\Desktop\\BitCube\\ConferenceBookingDomain\\ConferenceBookingDomain\\Bookinglib\\obj\\",
->>>>>>> 331da30f1d0aa594923dc1a3cd773ed181a577ee
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Training Center 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -75,5 +67,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\Training Center 1\\Mapps\\Assignments\\New folder (2)\\ConferenceBookingDomain\\Bookinglib\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

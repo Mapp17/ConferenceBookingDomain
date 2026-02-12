@@ -25,7 +25,7 @@ namespace Api.Controllers
         // -------------------------------
         // POST: api/bookings
         // -------------------------------
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = IdentitySeeder.Employee)]
         [HttpPost("create")]
         [ProducesResponseType(typeof(BookingResponseDto), 201)]
         [ProducesResponseType(typeof(object), 400)]
@@ -91,6 +91,7 @@ namespace Api.Controllers
             await _bookingRepo.AddBookingAsync(booking);
             await _bookingRepo.SaveChangesAsync();
 
+            //
             var response = new BookingResponseDto
             {
                 RoomName = room.Name,

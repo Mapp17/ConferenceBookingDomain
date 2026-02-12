@@ -12,6 +12,8 @@ public class Booking
     public ConferenceRoom Room { get; set; }
     public DateTime Start { get; set; }
     public DateTime End {get; set;}
+    
+    public Session session {get;set;}
 
     public BookingStatus Status { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

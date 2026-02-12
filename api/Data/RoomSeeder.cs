@@ -42,6 +42,7 @@ public static class RoomSeeder
                 Start = DateTime.UtcNow.AddHours(1),
                 End = DateTime.UtcNow.AddHours(2),
                 CancelledAt = null
+                
             });
 
             await context.SaveChangesAsync();
