@@ -112,6 +112,29 @@ Migrations synchronize team changes.
 
 These can break existing data or running systems.
 
+### Pagination, Filtering, and Performance
+
+**Pagination**  
+Our API endpoints support pagination to efficiently handle large datasets. You can control pagination using the following query parameters:  
+- `page` – the current page number (default: 1)  
+- `pageSize` – the number of items per page (default: 10)  
+
+The API returns metadata alongside results, including total items and total pages, allowing clients to navigate data easily.
+
+**Supported Filters**  
+You can filter results using query parameters specific to each endpoint. Common filters include:  
+- `name` – filter by name or partial match  
+- `type` – filter by category or type (e.g., `Standard`, `Boardroom`, `Training`)  
+- `dateFrom` / `dateTo` – filter records within a date range  
+
+Filters can be combined to refine queries.
+
+**Performance Considerations**  
+- Database queries are optimized using indexes on frequently filtered fields.  
+- Pagination limits the number of records returned per request to prevent large data loads.  
+- Filtering is applied at the database level to minimize in-memory operations and reduce API response times.
+
+
 ## License
 The use of MIT LICENSE.
 
