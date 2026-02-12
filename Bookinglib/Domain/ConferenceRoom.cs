@@ -12,7 +12,7 @@ namespace Bookinglib.Domain
 
         public int Capacity { get; set; }
 
-        public string Location { get; set; } = "";
+        public string? Location { get; set; } = "";
 
         public bool IsActive { get; set; } = true;
 
@@ -25,6 +25,7 @@ namespace Bookinglib.Domain
             Capacity = capacity;
             Type = type;
             IsActive = true;
+            
         }
     }
 

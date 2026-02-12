@@ -4,6 +4,10 @@ using Bookinglib.Logic;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceBookingDomain.api.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Api.Controllers
 {
@@ -164,7 +168,98 @@ namespace Api.Controllers
             return Ok();
         }
 
+        // Filtering/Sorting/Pagination endpoints would go here
+        [HttpGet("Filtering")]
+        public async Task<IActionResult> GetBookingsWithFiltering(
+            [FromQuery] string? roomName,
+            [FromQuery] string? location,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate,
+            [FromQuery] string? status)
+        {
+            // Keep it as IQueryable
+            var bookings = _bookingRepo.GetAllBookingsAsQueryable().AsNoTracking();
 
-        
+            if (!string.IsNullOrEmpty(roomName))
+                bookings = bookings.Where(b => b.Room.Name.ToLower().Contains(roomName.ToLower()));
+
+            if (!string.IsNullOrEmpty(location))
+                bookings = bookings.Where(b => b.Room.Location.ToLower().Contains(location.ToLower()));
+
+            if (startDate.HasValue)
+                bookings = bookings.Where(b => b.Start >= startDate.Value);
+
+            if (endDate.HasValue)
+                bookings = bookings.Where(b => b.End <= endDate.Value);
+
+            if (!string.IsNullOrEmpty(status))
+                bookings = bookings.Where(b => b.Status.ToString().ToLower() == status.ToLower());
+
+            // Execute query at the end
+            var results = await bookings.ToListAsync();
+
+            return Ok(results);
+        }
+
+        // Pagination endpoint (already correct, just ensure AsNoTracking for performance)
+        [HttpGet("Paging")]
+        public async Task<IActionResult> GetBookingsWithPaging(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var query = _bookingRepo.GetAllBookingsAsQueryable().AsNoTracking();
+
+            var totalBookings = await query.CountAsync();
+
+            var bookings = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                Bookings = bookings,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalBookings = totalBookings
+            });
+        }
+
+// Sorting endpoint (already mostly correct)
+        [HttpGet("sorted")]
+        public async Task<IActionResult> GetBookingsSorted(
+            [FromQuery] string? sortBy = null,
+            [FromQuery] bool descending = false,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var query = _bookingRepo.GetAllBookingsAsQueryable().AsNoTracking();
+
+            query = sortBy switch
+            {
+                "RoomName" => descending ? query.OrderByDescending(b => b.Room.Name) : query.OrderBy(b => b.Room.Name),
+                "CreatedAt" => descending ? query.OrderByDescending(b => b.CreatedAt) : query.OrderBy(b => b.CreatedAt),
+                _ => descending ? query.OrderByDescending(b => b.Start) : query.OrderBy(b => b.Start),
+            };
+
+            int totalRecords = await query.CountAsync();
+
+            var results = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                TotalRecords = totalRecords,
+                Page = page,
+                PageSize = pageSize,
+                Results = results
+            });
+        }
+
+
+
+
     }
 }
