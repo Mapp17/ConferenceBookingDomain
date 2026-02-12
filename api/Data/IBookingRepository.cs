@@ -7,5 +7,6 @@ public interface IBookingRepository
     Task DeleteBookingAsync(Booking booking);
     Task<Booking?> GetBookingByIdAsync(int id);
     Task<List<Booking>> GetAllBookingsAsync();
+    IQueryable<Booking> GetAllBookingsAsQueryable();
     Task SaveChangesAsync();
 }

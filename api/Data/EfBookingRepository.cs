@@ -34,6 +34,10 @@ public class EfBookingRepository : IBookingRepository
             .Include(b => b.Room)
             .ToListAsync();
     }
+    public IQueryable<Booking> GetAllBookingsAsQueryable()
+    {
+        return _context.Bookings.Include(b => b.Room).AsNoTracking();
+    }
 
 
     public async Task SaveChangesAsync()

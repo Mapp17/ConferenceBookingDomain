@@ -30,7 +30,7 @@ public static class RoomSeeder
         }
 
 
-        if (!context.Bookings.Any())
+        else if (!context.Bookings.Any())
         {
             var room = context.ConferenceRooms.First(); 
 
