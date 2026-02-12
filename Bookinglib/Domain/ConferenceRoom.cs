@@ -1,69 +1,33 @@
-using Bookinglib;
 
 
 namespace Bookinglib.Domain
 {
-public class ConferenceRoom
-{
-    public int Id { get; }
-    public string Name { get;  }
-    public string Type { get; }
-    public int Capacity {get;}
-    //public RoomCapacity Capacity { get; init; }
-    //public RoomStatus roomStatus { get; set; }
+    public class ConferenceRoom
+    {
+        public int Id { get; set; }
 
-    public ConferenceRoom(int id, string name, int capacity, string type)
-    {
-        Id = id;
-        Name = name;
-        Type = type;
-        Capacity = capacity;
-    }
-    /*public ConferenceRoom(int roomId, string name, RoomCapacity capacity)
-    {
-        RoomId = roomId;
-        Name = name;
-        Capacity = capacity;
-        roomStatus = RoomStatus.Available;
-    } */   
+        public string Name { get; set; }
 
-/*
-    private readonly List<Booking> _bookings = new();
-    public IReadOnlyList<Booking> Bookings => _bookings.AsReadOnly();
+        public string Type { get; set; }
 
-    public bool IsAvailableFor(TimeSlot timeSlot)
-    {
-        // Room must be available
-        if (roomStatus != RoomStatus.Available)
-            return false;
-        
-        // Check for overlapping bookings
-        var hasOverlappingBooking = _bookings.Any(b => 
-            b.Status == BookingStatus.Confirmed && 
-            b.TimeSlot.Overlaps(timeSlot));
-        
-        return !hasOverlappingBooking;
-    }
+        public int Capacity { get; set; }
 
-    public void AddBooking(Booking booking)
-    {
-       _bookings.Add(booking);
-    }
-    public void RemoveBooking(Booking booking)
-    { 
-        _bookings.Remove(booking);
-    }
-    public void UpdateStatus(RoomStatus newStatus)
-    {
-        // Business rule: Can't make room unavailable if it has upcoming bookings
-        if (newStatus != RoomStatus.Available && 
-            _bookings.Any(b => b.Status == BookingStatus.Confirmed && b.TimeSlot.StartTime > DateTime.UtcNow))
+        public string? Location { get; set; } = "";
+
+        public bool IsActive { get; set; } = true;
+
+        public ConferenceRoom() { }
+
+        public ConferenceRoom(int id, string name, int capacity, string type)
         {
-            throw new InvalidOperationException(
-                "Cannot change room status with upcoming confirmed bookings");
+            Id = id;
+            Name = name;
+            Capacity = capacity;
+            Type = type;
+            IsActive = true;
+            
         }
+    }
 
-        roomStatus = newStatus;
-    }*/
-}
+
 }

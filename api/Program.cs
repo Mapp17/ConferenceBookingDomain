@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +19,14 @@ var dataDirectory = Path.Combine(
     "Data"
 );
 
-builder.Services.AddDbContext<BookingDbContext>(options =>
-options.UseSqlite("Data source=BookingSystem.db"));
+builder.Services.AddDbContext<BookingAppDbContext>(options =>
+options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-.AddEntityFrameworkStores<BookingDbContext>().AddDefaultTokenProviders();
+.AddEntityFrameworkStores<BookingAppDbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IBookingRepository, EfBookingRepository>();
+builder.Services.AddScoped<IRoomRepository, EfRoomRepository>();
 
 
 builder.Services.AddSingleton<BookingFileStore>(
@@ -34,6 +39,39 @@ builder.Services.AddSingleton<BookingService>();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<TokenService>();
+
+// Configure JWT authentication Swagger to include the Authorization header
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter: Bearer {your JWT token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -66,11 +104,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var services = scope.ServiceProvider;
 
-    await IdentitySeeder.SeedAsync(userManager,roleManager);
+    var context = services.GetRequiredService<BookingAppDbContext>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    await context.Database.MigrateAsync();  
+
+    await RoomSeeder.SeedAsync(context);
+    await IdentitySeeder.SeedAsync(userManager, roleManager);
 }
+
 
 app.UseAuthentication();
 app.UseAuthorization();

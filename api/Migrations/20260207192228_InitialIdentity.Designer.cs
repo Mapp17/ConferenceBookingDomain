@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace api.Migrations
 {
-    [DbContext(typeof(BookingDbContext))]
+    [DbContext(typeof(BookingAppDbContext))]
     [Migration("20260207192228_InitialIdentity")]
     partial class InitialIdentity
     {
