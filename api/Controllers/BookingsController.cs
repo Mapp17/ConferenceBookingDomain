@@ -175,7 +175,8 @@ namespace Api.Controllers
             [FromQuery] string? location,
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate,
-            [FromQuery] string? status)
+            [FromQuery] string? status,
+            [FromQuery] bool? isActive)
         {
             
             var bookings = _bookingRepo.GetAllBookingsAsQueryable();
@@ -192,8 +193,14 @@ namespace Api.Controllers
             if (endDate.HasValue)
                 bookings = bookings.Where(b => b.End <= endDate.Value);
 
+            if (startDate.HasValue && endDate.HasValue)
+                bookings = bookings.Where(b => b.Start >= startDate.Value && b.End <= endDate.Value);
+
             if (!string.IsNullOrEmpty(status))
                 bookings = bookings.Where(b => b.Status.ToString().ToLower() == status.ToLower());
+
+            if (isActive.HasValue)
+                bookings = bookings.Where(b => b.IsActive == isActive.Value);
 
             var results = await bookings.ToListAsync();
 
@@ -256,5 +263,30 @@ namespace Api.Controllers
                 TotalBookings = totalBookings
             });
         }
+
+        public async Task<PaginatedResult<BookingListResponse>> GetAll(
+            int page, int pageSize)
+        {
+            var query = _bookingRepo.GetAllBookingsAsQueryable();
+
+            var total = await query.CountAsync();
+
+            var items = await query
+                .OrderBy(b => b.StartTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(b => new BookingListResponse
+                {
+                    Id = b.Id,
+                    RoomName = b.Room.Name,
+                    UserEmail = b.User.Email,
+                    StartTime = b.StartTime,
+                    EndTime = b.EndTime
+                })
+                .ToListAsync();
+
+            return new PaginatedResult<BookingListResponse>(items, total);
+        }
+
     }
 }

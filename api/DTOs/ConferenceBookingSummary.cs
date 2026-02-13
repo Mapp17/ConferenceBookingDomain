@@ -4,6 +4,7 @@ public class BookingSummaryDto
     public string RoomName { get; set; }
     public string RoomType { get; set; }
     public string Location { get; set; }
+    public bool IsActive { get; set; }
     public DateTime Start { get; set; }
     public DateTime End { get; set; }
 }
