@@ -135,6 +135,95 @@ Filters can be combined to refine queries.
 - Filtering is applied at the database level to minimize in-memory operations and reduce API response times.
 
 
+## Entity Relationships
+
+The system has three core entities with the following relationships:
+
+1. **Booking ↔ Room** (Many-to-One)
+   - A Room can have many Bookings
+   - A Booking belongs to exactly one Room
+   - Enforced via foreign key `RoomId` with `DeleteBehavior.Restrict`
+
+2. **Booking ↔ User** (Many-to-One)
+   - A User can have many Bookings
+   - A Booking belongs to exactly one User
+   - Enforced via foreign key `UserId` with `DeleteBehavior.Restrict`
+
+## Soft Delete Implementation
+
+Soft delete is implemented on the **Room** entity for the following reasons:
+- Historical data preservation for past bookings
+- Legal/compliance requirements to maintain booking history
+- Ability to restore rooms without losing associated data
+- Prevents orphaned records in bookings
+
+Implementation:
+- `IsActive` boolean flag (default true)
+- `DeletedAt` nullable DateTime for audit purposes
+- Global query filter: `HasQueryFilter(r => r.IsActive)`
+- All list endpoints automatically exclude inactive rooms
+
+## Data Integrity Enforcement
+
+Data integrity is enforced at multiple levels:
+
+### Database Level
+- Foreign key constraints with `DeleteBehavior.Restrict`
+- Unique index on `(RoomId, Start, End)` to prevent double bookings at database level
+- Required fields with proper data types
+
+### Application/Service Level
+- **Prevent double bookings**: Check for overlapping active bookings
+- **Prevent booking inactive rooms**: Validate room `IsActive` flag
+- **Valid date ranges**: Ensure `Start < End`
+- **Business hours**: Bookings only allowed 8 AM - 8 PM
+- **Capacity validation**: Room capacity must meet requirements
+
+### Domain Level
+- Business rules encapsulated in service layer
+- Domain models with private constructors for controlled creation
+- Encapsulated soft delete logic in `SoftDelete()` method
+
+## API Design for Frontend Consumption
+
+The API is designed with frontend needs in mind:
+
+### Pagination
+All list endpoints support pagination with consistent parameters:
+- `page`: Page number (default: 1)
+- `pageSize`: Items per page (default: 10, max: 50)
+
+### Filtering
+- Multiple filter parameters (location, room type, capacity)
+- Applied at database level (not in-memory)
+
+### Sorting
+- Configurable sort fields and direction
+- Default sorting by start time
+
+### Projections
+- DTOs for all responses to avoid over-fetching
+- List views use lightweight `BookingListResponse` instead of full entities
+
+### Error Handling
+- Consistent error response format with error codes
+- Appropriate HTTP status codes
+- Meaningful error messages
+
+### Performance Optimizations
+- Async/Await throughout
+- `AsNoTracking()` for read-only queries
+- Eager loading only when necessary
+- Database-level filtering and sorting
+
+## Security
+
+- Role-based authorization (Admin, Employee, Receptionist)
+- User-specific data access (users can only view their own bookings)
+- Claims-based user identification
+
+
+
 ## License
 The use of MIT LICENSE.
 
