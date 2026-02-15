@@ -32,4 +32,19 @@ public class EfRoomRepository : IRoomRepository
                           b.Start < end && b.End > start))
             .ToListAsync();
     }
+
+    public async Task DeactivateRoom(int id)
+    {
+        var room = await _context.Rooms
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(r => r.Id == id);
+
+        if (room == null)
+            throw new Exception("Room not found.");
+
+        room.Deactivate();
+
+        await _context.SaveChangesAsync();
+    }
+
 }

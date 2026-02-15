@@ -1,6 +1,6 @@
 using System;
 using Bookinglib.Domain;
-using Bookinglib.Services;
+using api.Services;
 using Bookinglib.Persistence;
 using ConferenceBookingDomain.api.Middleware;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +25,8 @@ options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<BookingAppDbContext>().AddDefaultTokenProviders();
 
+
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, EfBookingRepository>();
 builder.Services.AddScoped<IRoomRepository, EfRoomRepository>();
 
