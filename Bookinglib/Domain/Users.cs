@@ -8,7 +8,7 @@ namespace Bookinglib.Domain
         public string Role { get; set; }
 
         public int BookingId { get; set; }
-        public Booking Booking { get; set; }
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     }
 }

@@ -16,6 +16,10 @@ namespace Bookinglib.Domain
 
         public bool IsActive { get; set; } = true;
 
+        public DateTime? DeletedAt { get; private set; }
+
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
+
         public ConferenceRoom() { }
 
         public ConferenceRoom(int id, string name, int capacity, string type)
@@ -26,6 +30,12 @@ namespace Bookinglib.Domain
             Type = type;
             IsActive = true;
             
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+            DeletedAt = DateTime.UtcNow;
         }
     }
 

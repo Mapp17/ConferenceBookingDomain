@@ -16,16 +16,14 @@ public class BookingAppDbContext : IdentityDbContext<ApplicationUser, IdentityRo
         base.OnModelCreating(builder);
 
         builder.Entity<Booking>()
-            .HasKey(b => b.Id)
             .HasOne(b => b.Room)
-            .withMany(cr => cr.Bookings
+            .WithMany(cr => cr.Bookings)
             .HasForeignKey(b => b.RoomId)
-            .OnDelete(DeleteBehavior.Restrict));
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.Entity<Booking>()
-            .HasKey(b => b.Id)
             .HasOne(b => b.User)
-            .withMany(u => u.Bookings)
+            .WithMany(u => u.Bookings)
             .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 

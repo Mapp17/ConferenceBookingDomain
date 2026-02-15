@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Bookinglib.Domain;
+using api.DTOs;
+using api.Common;
+
 
 public class EfBookingRepository : IBookingRepository
 {
@@ -21,7 +24,8 @@ public class EfBookingRepository : IBookingRepository
 
     public async Task DeleteBookingAsync(Booking booking)
     {
-         _context.Bookings.Remove(booking);
+        booking.IsDeleted = true;
+        _context.Bookings.Update(booking);
     }
     public async Task<Booking?> GetBookingByIdAsync(int id)
     {
@@ -71,8 +75,30 @@ public class EfBookingRepository : IBookingRepository
         return new BookingResponseDto(booking.Id);
     }
 
+    public async Task<PaginatedResult<BookingListResponseDto>> GetPagedAsync(int page, int pageSize)
+    {
+        var query = _context.Bookings
+            .AsNoTracking();
 
+        var total = await query.CountAsync();
 
+        var items = await query
+            .OrderBy(b => b.Start)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(b => new BookingListResponseDto
+            {
+                Id = b.Id,
+                RoomName = b.Room.Name,
+                Start = b.Start,
+                End = b.End,
+                Status = b.Status
+            })
+            .ToListAsync();
+
+        return new PaginatedResult<BookingListResponseDto>(items, total);
+    }
+    
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
