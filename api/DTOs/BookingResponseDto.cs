@@ -1,6 +1,6 @@
 using Bookinglib.Domain;
 
-namespace ConferenceBookingDomain.api.DTOs
+namespace api.DTOs
 {
 
     public class BookingResponseDto
