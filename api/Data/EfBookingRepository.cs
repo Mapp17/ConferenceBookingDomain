@@ -45,7 +45,7 @@ public class EfBookingRepository : IBookingRepository
 
     public async Task<BookingResponseDto> CreateAsync(CreateBookingRequestDto request)
     {
-        var room = await _context.Rooms
+        var room = await _context.ConferenceRooms
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(r => r.Id == request.RoomId);
 
@@ -55,24 +55,34 @@ public class EfBookingRepository : IBookingRepository
         if (!room.IsActive)
             throw new Exception("Room is inactive.");
 
-        if (request.StartTime >= request.EndTime)
+        if (request.Start >= request.End)
             throw new Exception("Invalid time range.");
 
         var overlap = await _context.Bookings.AnyAsync(b =>
             b.RoomId == request.RoomId &&
-            request.StartTime < b.EndTime &&
-            request.EndTime > b.StartTime);
+            request.Start < b.End &&
+            request.End > b.Start);
 
         if (overlap)
             throw new Exception("Room already booked.");
 
         var booking = new Booking(request.RoomId, request.UserId,
-                                request.StartTime, request.EndTime);
+                                request.Start, request.End);
 
         _context.Bookings.Add(booking);
         await _context.SaveChangesAsync();
 
-        return new BookingResponseDto(booking.Id);
+        return new BookingResponseDto
+    {
+        RoomId = booking.RoomId,
+        RoomName = room.Name,
+        Capacity = room.Capacity,
+        Start = booking.Start,
+        End = booking.End,
+        Status = booking.Status.ToString(),
+        CreatedAt = booking.CreatedAt,
+        CancelledAt = booking.CancelledAt
+    };
     }
 
     public async Task<PaginatedResult<BookingListResponseDto>> GetPagedAsync(int page, int pageSize)
@@ -92,7 +102,7 @@ public class EfBookingRepository : IBookingRepository
                 RoomName = b.Room.Name,
                 Start = b.Start,
                 End = b.End,
-                Status = b.Status
+                Status = b.Status.ToString()
             })
             .ToListAsync();
 

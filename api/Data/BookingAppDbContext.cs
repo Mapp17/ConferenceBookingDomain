@@ -27,10 +27,12 @@ public class BookingAppDbContext : IdentityDbContext<ApplicationUser, IdentityRo
             .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<ConferenceRoom>()
+            .HasKey(cr => cr.Id);
 
         builder.Entity<ConferenceRoom>()
-            .HasKey(cr => cr.Id)
             .HasQueryFilter(cr => cr.IsActive);
+
 
         builder.Entity<Session>()
             .HasKey(s => s.Id);
