@@ -35,7 +35,7 @@ public class EfRoomRepository : IRoomRepository
 
     public async Task DeactivateRoom(int id)
     {
-        var room = await _context.Rooms
+        var room = await _context.ConferenceRooms
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(r => r.Id == id);
 

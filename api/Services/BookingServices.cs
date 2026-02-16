@@ -59,7 +59,7 @@ namespace api.Services
 
             return new BookingResponseDto
             {
-                Id = booking.Id,
+                RoomId = booking.Id,
                 RoomName = room.Name,
                 RoomType = room.Type,
                 Start = booking.Start,
