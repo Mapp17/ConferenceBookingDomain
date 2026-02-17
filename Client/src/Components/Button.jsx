@@ -1,6 +1,8 @@
-function Button({ label, onClick, type = "button" }) {
+import "./Button.css";
+
+function Button({ label, onClick, type = "submit" }) {
   return (
-    <button type={type} onClick={onClick}>
+    <button type={type} onClick={onClick} className="button">
       {label}
     </button>
   )
