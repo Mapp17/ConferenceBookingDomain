@@ -5,7 +5,8 @@ function BookingCard({
   roomName,
   date,
   userName,
-  onCancel
+  onCancel,
+  id
 }) {
   return (
     <div className="bookingCard">
@@ -15,7 +16,7 @@ function BookingCard({
 
       <Button 
         label="Cancel" 
-        onClick={onCancel} 
+        onClick={() => onCancel(id)} 
       />
     </div>
   )
