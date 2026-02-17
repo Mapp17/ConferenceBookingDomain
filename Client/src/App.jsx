@@ -1,29 +1,20 @@
-import styles from "./ConferenceBooking.module.css";
+import  "./ConferenceBooking.css";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
-import Button from "./Components/Button";
-import BookingCard from "./Components/BookingCard";
-import mockBookings from "./mockData";
+import BookingList from "./Components/BookingList";
+
 
 function App() {
   return (
-    <div className={styles.appContainer}>
-      <Navbar className={styles.navbar} />
+    <main className="appContainer">
+      <Navbar/>
 
-      <div className={styles.gridContainer}>
-        {mockBookings.map((booking) => (
-          <BookingCard
-            key={booking.id}
-            className={styles.bookingCard}
-            roomName={booking.roomName}
-            date={booking.date}
-            userName={booking.userName}
-          />
-        ))}
+      <div className="gridContainer">
+        <BookingList />
       </div>
 
-      <Footer className={styles.footer} />
-    </div>
+      <Footer/>
+    </main>
   );
 }
 

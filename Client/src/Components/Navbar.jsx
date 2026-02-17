@@ -1,6 +1,8 @@
+import "./Navbar.css";
+
 function Navbar() {
   return (
-      <nav className="bg-gray-800 text-white p-4">
+      <nav className="navbar">
         <h1 className="text-xl font-bold">Conference Bookings</h1>
       </nav>
   );

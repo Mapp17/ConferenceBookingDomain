@@ -1,6 +1,8 @@
+import "./Footer.css"
+
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-4 text-center">
+    <footer className="footer">
       <p>&copy; 2024 Conference Booking System. All rights reserved.</p>
     </footer>
   );
