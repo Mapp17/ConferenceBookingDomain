@@ -1,0 +1,49 @@
+
+.appContainer {
+  background-color: #f0f4f8; 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.navbar {
+  background-color: #007BFF; 
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+
+.bookingCard {
+  background: linear-gradient(145deg, #007BFF, #3399FF); 
+  color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+
+.footer {
+  margin-top: auto;
+  background-color: #007BFF;
+  color: white;
+  text-align: center;
+
+}

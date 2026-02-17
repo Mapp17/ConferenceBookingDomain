@@ -222,7 +222,35 @@ All list endpoints support pagination with consistent parameters:
 - User-specific data access (users can only view their own bookings)
 - Claims-based user identification
 
+## Prerequisites
 
+- Make sure you have the following installed on your system:
+
+- Node.js (v24)
+
+- npm (comes with Node.js)
+
+### Getting Started
+
+Clone the repository:
+
+git clone 
+cd 
+
+
+1. Install dependencies:
+
+- npm install
+
+
+2. Start the development server:
+
+- npm run dev
+
+
+3. Open the app in your browser:
+
+- http://localhost:5173/
 
 ## License
 The use of MIT LICENSE.

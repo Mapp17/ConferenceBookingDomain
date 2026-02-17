@@ -34,7 +34,6 @@ builder.Services.AddScoped<IRoomRepository, EfRoomRepository>();
 builder.Services.AddSingleton<BookingFileStore>(
     new BookingFileStore(dataDirectory)
 );
-builder.Services.AddSingleton<BookingService>();
 
 
 // Add services to the container.
