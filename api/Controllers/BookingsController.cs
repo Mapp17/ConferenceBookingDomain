@@ -45,10 +45,10 @@ namespace Api.Controllers
         {
             try
             {
-                var userId = dto.UserId; // In a real app, you'd get this from the JWT token claims
+                var userId = dto.UserId; 
                 var result = await _bookingService.CreateBookingAsync(dto, userId);
 
-                return CreatedAtAction(nameof(CreateBooking), new { id = result.Id }, result);
+                return CreatedAtAction(nameof(CreateBooking), new { RoomId = result.RoomId }, result);
             }
             catch (InvalidOperationException ex)
             {
@@ -95,12 +95,12 @@ namespace Api.Controllers
         [HttpGet("filter")]
         public async Task<IActionResult> Filter(
             string? roomName,
-            DateTime? startDate,
-            DateTime? endDate,
+            DateTime? star,
+            DateTime? end,
             string? status)
         {
             var result = await _bookingService
-                .GetFilteredBookingsAsync(roomName, startDate, endDate, status);
+                .GetFilteredBookingsAsync(roomName, star, end, status);
 
             return Ok(result);
         }

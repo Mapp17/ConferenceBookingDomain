@@ -15,7 +15,7 @@ namespace Bookinglib.Domain
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? CancelledAt { get; set; }
-
+ 
         public ConferenceRoom Room { get; set; }
         public User User { get; set; }
 
