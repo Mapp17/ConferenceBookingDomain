@@ -45,7 +45,7 @@ namespace Api.Controllers
         {
             try
             {
-                var userId = dto.UserId; // In a real app, you'd get this from the JWT token claims
+                var userId = dto.UserId; 
                 var result = await _bookingService.CreateBookingAsync(dto, userId);
 
                 return CreatedAtAction(nameof(CreateBooking), new { id = result.Id }, result);

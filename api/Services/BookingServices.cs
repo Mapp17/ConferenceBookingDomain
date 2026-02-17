@@ -23,7 +23,7 @@ namespace api.Services
 
         public async Task<BookingResponseDto> CreateBookingAsync(CreateBookingRequestDto request, int userId)
         {
-            // Validate room exists and is active
+            
             var room = await _context.ConferenceRooms
                 .FirstOrDefaultAsync(r => r.Id == request.RoomId);
 
@@ -33,15 +33,14 @@ namespace api.Services
             if (!room.IsActive)
                 throw new InvalidOperationException("Room is inactive and cannot be booked");
 
-            // Validate date range
-            if (request.Start >= request.End)
+                        if (request.Start >= request.End)
                 throw new InvalidOperationException("Start time must be before end time");
 
-            // Validate business hours (8 AM - 8 PM)
+            
             if (request.Start.Hour < 8 || request.End.Hour > 20 || request.End.Hour < 8)
                 throw new InvalidOperationException("Bookings are only allowed between 8 AM and 8 PM");
 
-            // Check for double booking
+            
             var overlappingBooking = await _context.Bookings
                 .AnyAsync(b => b.RoomId == request.RoomId &&
                               b.IsActive &&
@@ -79,7 +78,7 @@ namespace api.Services
 
             booking.Status = BookingStatus.Cancelled;
             booking.CancelledAt = DateTime.UtcNow;
-            booking.IsActive = false; // Soft delete
+            booking.IsActive = false; 
 
             await _context.SaveChangesAsync();
             return true;
