@@ -1,16 +1,17 @@
 import BookingCard from "./BookingCard";
-import mockBookings from "../data/mockData";
 
-function BookingList()
+function BookingList({bookings, onCancel})
 {
     return (
         <>
-            {mockBookings.map((booking) => (
+            {bookings.map((booking) => (
                 <BookingCard 
-                    roomName={booking.roomName}
                     key={booking.id}
+                    id={booking.id}
+                    roomName={booking.roomName}
                     date={booking.date}
                     userName={booking.userName}
+                    onCancel={onCancel}
                 />
             ))}
         </>
