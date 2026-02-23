@@ -561,3 +561,5 @@ C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\ap
 C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.pdb
 C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\obj\Debug\net8.0\ref\api.dll
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\bin\Debug\net8.0\Npgsql.dll
+C:\Users\USER\Desktop\BitCube\ConferenceBookingDomain\ConferenceBookingDomain\api\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

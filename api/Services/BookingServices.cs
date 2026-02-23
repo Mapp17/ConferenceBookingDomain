@@ -10,7 +10,7 @@ using api.Common;
 
 namespace api.Services
 {
-    
+
 
     public class BookingService : IBookingService
     {
@@ -23,7 +23,7 @@ namespace api.Services
 
         public async Task<BookingResponseDto> CreateBookingAsync(CreateBookingRequestDto request, int userId)
         {
-            
+
             var room = await _context.ConferenceRooms
                 .FirstOrDefaultAsync(r => r.Id == request.RoomId);
 
@@ -33,14 +33,14 @@ namespace api.Services
             if (!room.IsActive)
                 throw new InvalidOperationException("Room is inactive and cannot be booked");
 
-                        if (request.Start >= request.End)
+            if (request.Start >= request.End)
                 throw new InvalidOperationException("Start time must be before end time");
 
-            
+
             if (request.Start.Hour < 8 || request.End.Hour > 20 || request.End.Hour < 8)
                 throw new InvalidOperationException("Bookings are only allowed between 8 AM and 8 PM");
 
-            
+
             var overlappingBooking = await _context.Bookings
                 .AnyAsync(b => b.RoomId == request.RoomId &&
                               b.IsActive &&
@@ -52,7 +52,7 @@ namespace api.Services
                 throw new InvalidOperationException("Room is already booked for the selected time");
 
             var booking = new Booking(request.RoomId, userId, request.Start, request.End);
-            
+
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
 
@@ -78,7 +78,7 @@ namespace api.Services
 
             booking.Status = BookingStatus.Cancelled;
             booking.CancelledAt = DateTime.UtcNow;
-            booking.IsActive = false; 
+            booking.IsActive = false;
 
             await _context.SaveChangesAsync();
             return true;
@@ -112,7 +112,7 @@ namespace api.Services
             return new PaginatedResult<BookingListResponseDto>(items, totalCount, page, pageSize);
         }
 
-                public async Task<PaginatedResult<BookingListResponseDto>> GetAllBookingsAsync(int page, int pageSize)
+        public async Task<PaginatedResult<BookingListResponseDto>> GetAllBookingsAsync(int page, int pageSize)
         {
             var query = _context.Bookings
                 .Include(b => b.Room)

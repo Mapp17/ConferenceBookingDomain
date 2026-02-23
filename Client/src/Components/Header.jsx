@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ConnectionStatus from "./ConnectionStatus";
 
 function Header() {
   useEffect(() => {
@@ -10,7 +11,14 @@ function Header() {
     return () => clearInterval(intervalId);
   }, []);
 
-  return <header><h2>Conference Booking System</h2></header>;
+  return (
+    <header className="header">
+      <h1>Conference Booking System</h1>
+
+      {/* ✅ Backend connection indicator */}
+      <ConnectionStatus />
+    </header>
+  );
 }
 
 export default Header;

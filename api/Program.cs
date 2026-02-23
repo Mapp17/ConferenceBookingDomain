@@ -20,7 +20,7 @@ var dataDirectory = Path.Combine(
 );
 
 builder.Services.AddDbContext<BookingAppDbContext>(options =>
-options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
+options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<BookingAppDbContext>().AddDefaultTokenProviders();
@@ -99,9 +99,20 @@ builder.Services.AddAuthentication(options =>
 })
 ;
 
+builder.Services.AddCors ( options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .WithMethods("GET", "POST", "PUT", "DELETE");
+    });
+});
 
 
 var app = builder.Build();
+
+app.UseCors("AllowReactApp"); 
 
 using (var scope = app.Services.CreateScope())
 {
