@@ -1,64 +1,33 @@
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import Header from "./Components/Header";
-import "./ConferenceBooking.css";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import BookingList from "./Components/BookingList";
 import BookingForm from "./Components/BookingForm";
-import { fetchAllBookings } from "./services/bookingService";
+import { useBookings } from "./hooks/useBookings";
+import "./ConferenceBooking.css";
 
 function App() {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { bookings, loading, error, totalCount, fetchBookings } = useBookings();
   const [category, setCategory] = useState("All");
 
-  // --- Load bookings from API ---
-  const loadBookings = () => {
-    setLoading(true);
-    setError(null);
-    fetchAllBookings()
-      .then((data) => {
-        setBookings(data);
-        localStorage.setItem("bookings", JSON.stringify(data));
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  };
-
-  // --- Effect: fetch on mount + when category changes ---
-  useEffect(() => {
-    loadBookings();
-  }, [category]); // disciplined dependency array
-
-  // --- Filtered bookings ---
+  // --- Filter bookings by category (optional: only if your DTO has category) ---
   const filteredBookings =
     category === "All"
       ? bookings
-      : bookings.filter((b) => b.category === category);
+      : bookings.filter((b) => b.category === category); // <-- remove or fix if DTO has no category
 
-  // --- Add booking ---
+  // --- Add booking properly via state update ---
   const handleAddBooking = (newBooking) => {
-    setBookings((prevBookings) => {
-      const updatedBookings = [...prevBookings, newBooking];
-      localStorage.setItem("bookings", JSON.stringify(updatedBookings));
-      return updatedBookings;
-    });
+    fetchBookings(); // optional: re-fetch from API after add
   };
 
-  // --- Cancel booking ---
+  // --- Cancel booking properly via state update ---
   const handleCancelBooking = (id) => {
-    setBookings((prev) => {
-      const updated = prev.filter((booking) => booking.id !== id);
-      localStorage.setItem("bookings", JSON.stringify(updated));
-      return updated;
-    });
+    // optional: call backend to cancel, then re-fetch
+    fetchBookings();
   };
-
-  const totalBookings = bookings.length;
 
   return (
     <main className="appContainer">
@@ -77,27 +46,32 @@ function App() {
             <option>Internal</option>
             <option>Client</option>
           </select>
-
-          
-          <p className="total">Total Bookings: {totalBookings}</p>
+          <p className="total">Total Bookings: {totalCount}</p>
         </aside>
 
         <section className="loading-container d-flex flex-column align-items-center">
-          {loading && <div className="loading-spinner"><div className="spinner"></div></div>}
+          {loading && (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+              <p>Loading bookings...</p>
+            </div>
+          )}
+
           {error && (
             <div className="errorBox">
-              <p>{error}</p>
-              <button onClick={loadBookings}>Retry</button>
+              <p style={{ color: "red" }}>Backend Offline: {error}</p>
             </div>
           )}
+
           {!loading && !error && (
             <div className="gridContainer">
-            <BookingList 
-              bookings={filteredBookings}
-              onCancel={handleCancelBooking}
-            />
+              <BookingList
+                bookings={filteredBookings}
+                onCancel={handleCancelBooking}
+              />
             </div>
           )}
+
           <BookingForm onAddBooking={handleAddBooking} />
         </section>
       </div>

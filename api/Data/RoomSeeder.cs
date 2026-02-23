@@ -29,14 +29,38 @@ public static class RoomSeeder
             await context.SaveChangesAsync();
         }
 
+        if (!context.Users.Any())
+        {
+            var users = new List<User>
+            {
+                new User
+                {
+                    Name = "System Admin",
+                    Email = "admin@example.com",
+                    Role = "Admin"
+                },
+                new User
+                {
+                    Name = "Test User",
+                    Email = "employee@example.com",
+                    Role = "Employee"
+                }
+            };
 
-        else if (!context.Bookings.Any())
+            context.Users.AddRange(users);
+            await context.SaveChangesAsync();
+        }
+
+
+        if (!context.Bookings.Any())
         {
             var room = context.ConferenceRooms.First(); 
+            var user = context.Users.First();
 
             context.Bookings.Add(new Booking
             {
                 RoomId = room.Id, 
+                UserId = user.Id,
                 Status = BookingStatus.Confirmed,
                 CreatedAt = DateTime.UtcNow,
                 Start = DateTime.UtcNow.AddHours(1),
@@ -52,8 +76,8 @@ public static class RoomSeeder
             context.Sessions.Add(new Session
             {
                 Capacity = 20,
-                StartTime = DateTime.Today.AddHours(9),
-                EndTime = DateTime.Today.AddHours(11)
+                StartTime = DateTime.UtcNow.AddHours(9),
+                EndTime = DateTime.UtcNow.AddHours(11)
             });
             await context.SaveChangesAsync();
         }
