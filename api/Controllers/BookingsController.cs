@@ -15,7 +15,7 @@ using api.Common;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("api/bookings")]
+    [Route("api/[controller]")]
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
@@ -35,7 +35,7 @@ namespace Api.Controllers
         // -------------------------------
         // POST: api/bookings
         // -------------------------------
-        [Authorize(Roles = "Employee,Receptionist")]
+        //[Authorize(Roles = "Employee,Receptionist")]
         [HttpPost("create")]
         [ProducesResponseType(typeof(BookingResponseDto), 201)]
         [ProducesResponseType(typeof(object), 400)]
@@ -58,7 +58,7 @@ namespace Api.Controllers
 
 
         // Delete Booking
-        [Authorize(Roles = IdentitySeeder.Admin)]
+        //[Authorize(Roles = IdentitySeeder.Admin)]
         [HttpPut("cancel/{id}")]
         public async Task<IActionResult> CancelBooking(int id)
         {
@@ -73,9 +73,8 @@ namespace Api.Controllers
         // -------------------------------
         // GET: api/bookings
         // -------------------------------
-        [Authorize(Roles= IdentitySeeder.Admin + ", " + IdentitySeeder.Employee)]
+        //[Authorize(Roles= IdentitySeeder.Admin + ", " + IdentitySeeder.Employee)]
         [HttpGet("allbookings")]
-        [HttpGet("all")]
         public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
         {
             var result = await _bookingService.GetAllBookingsAsync(page, pageSize);
@@ -84,7 +83,7 @@ namespace Api.Controllers
 
 
 
-        [Authorize(Roles = IdentitySeeder.FacilitiesManager)]
+        //[Authorize(Roles = IdentitySeeder.FacilitiesManager)]
         [HttpGet("maintenance")]
         public IActionResult GetRoomsForMaintenance()
         {

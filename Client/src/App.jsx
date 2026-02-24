@@ -1,56 +1,82 @@
+
 import { useState } from "react";
-import  "./ConferenceBooking.css";
+import Header from "./Components/Header";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import BookingList from "./Components/BookingList";
-import mockBookings from "./data/mockData";
 import BookingForm from "./Components/BookingForm";
+import { useBookings } from "./hooks/useBookings";
+import "./ConferenceBooking.css";
 
 function App() {
+  const { bookings, loading, error, totalCount, fetchBookings } = useBookings();
+  const [category, setCategory] = useState("All");
 
- const [bookings, setBookings] = useState(() => {
-    const savedBookings = localStorage.getItem("bookings");
-    return savedBookings ? JSON.parse(savedBookings) : mockBookings;
-  });
+  // --- Filter bookings by category (optional: only if your DTO has category) ---
+  const filteredBookings =
+    category === "All"
+      ? bookings
+      : bookings.filter((b) => b.category === category); // <-- remove or fix if DTO has no category
 
- 
-  useState(() => {
-    const savedBookings = localStorage.getItem("bookings");
-    if (savedBookings) {
-      setBookings(JSON.parse(savedBookings));
-    }
-  });
-
+  // --- Add booking properly via state update ---
   const handleAddBooking = (newBooking) => {
-    setBookings((prevBookings) => {
-      const updatedBookings = [...prevBookings, newBooking];
-      localStorage.setItem("bookings", JSON.stringify(updatedBookings));
-      return updatedBookings;
-    });
-  }
+    fetchBookings(); // optional: re-fetch from API after add
+  };
 
+  // --- Cancel booking properly via state update ---
   const handleCancelBooking = (id) => {
-  setBookings((prev) =>
-    prev.filter((booking) => booking.id !== id)
-  );
-};
-
-
-  const totalBookings = bookings.length;
+    // optional: call backend to cancel, then re-fetch
+    fetchBookings();
+  };
 
   return (
     <main className="appContainer">
-      <Navbar/>
+      <Navbar />
+      <Header />
 
-      <div className="gridContainer">
-        <BookingList bookings={bookings}
-         onCancel={handleCancelBooking} />
+      <div className="dashboard">
+        <aside className="sidebar d-flex flex-column">
+          <h2>Filters</h2>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="filterSelect"
+          >
+            <option>All</option>
+            <option>Internal</option>
+            <option>Client</option>
+          </select>
+          <p className="total">Total Bookings: {totalCount}</p>
+        </aside>
+
+        <section className="loading-container d-flex flex-column align-items-center">
+          {loading && (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+              <p>Loading bookings...</p>
+            </div>
+          )}
+
+          {error && (
+            <div className="errorBox">
+              <p style={{ color: "red" }}>Backend Offline: {error}</p>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="gridContainer">
+              <BookingList
+                bookings={filteredBookings}
+                onCancel={handleCancelBooking}
+              />
+            </div>
+          )}
+
+          <BookingForm onAddBooking={handleAddBooking} />
+        </section>
       </div>
 
-      <BookingForm onAddBooking={handleAddBooking} />
-      <p>Total Bookings: {totalBookings}</p>
-      
-      <Footer/>
+      <Footer />
     </main>
   );
 }

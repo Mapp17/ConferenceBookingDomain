@@ -19,7 +19,7 @@ function BookingForm({ onAddBooking }) {
     e.preventDefault();
 
     const newBooking = {
-      id: id,
+      id: Date.now(),
       roomName: roomName,
       date: date,
       userName: userName,
