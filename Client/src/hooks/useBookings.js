@@ -1,27 +1,80 @@
-import { useState, useEffect } from "react";
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+import { useState, useEffect, useCallback } from "react";
 
-export function useBookings() {
+export function useBookings(apiUrl) {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const pageSize = 10;
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const response = await fetch(`${API_URL}/rooms`);
-        if (!response.ok) throw new Error("Failed to fetch bookings");
-        const data = await response.json();
-        setBookings(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  // API call function - encapsulated inside hook
+  const fetchBookings = useCallback(async () => {
+    setLoading(true);
+    try {
+      const url = `${apiUrl}/allbookings?page=${currentPage}&pageSize=${pageSize}`;
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
 
+      const data = await response.json();
+      
+      setBookings(data.items || []);
+      setTotalCount(data.totalCount || 0);
+      setError(null);
+    } catch (err) {
+      setError(err.message || "Failed to fetch bookings");
+      setBookings([]);
+      setTotalCount(0);
+    } finally {
+      setLoading(false);
+    }
+  }, [apiUrl, currentPage]);
+
+  // Cancel booking function - encapsulated inside hook
+  const cancelBooking = useCallback(async (bookingId) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/bookings/${bookingId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (response.ok) {
+        // Refresh the bookings list after successful cancellation
+        await fetchBookings();
+      } else {
+        throw new Error(`Failed to cancel booking: ${response.status}`);
+      }
+    } catch (err) {
+      setError(err.message || "Failed to cancel booking");
+    }
+  }, [apiUrl, fetchBookings]);
+
+  // Retry connection function
+  const retryConnection = useCallback(() => {
     fetchBookings();
-  }, []);
+  }, [fetchBookings]);
 
-  return { bookings, loading, error };
+  // Auto-fetch on mount and when page changes
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
+
+  return {
+    bookings,
+    loading,
+    error,
+    totalCount,
+    currentPage,
+    setCurrentPage,
+    cancelBooking,
+    retryConnection
+  };
 }
