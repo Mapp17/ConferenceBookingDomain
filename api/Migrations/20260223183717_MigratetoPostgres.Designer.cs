@@ -11,13 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(BookingAppDbContext))]
-<<<<<<<< HEAD:api/Migrations/20260223081122_MigratetoPostgres.Designer.cs
-    [Migration("20260223081122_MigratetoPostgres")]
+    [Migration("20260223183717_MigratetoPostgres")]
     partial class MigratetoPostgres
-========
-    [Migration("20260223190845_AddingUsers")]
-    partial class AddingUsers
->>>>>>>> 4ca33a4ac88a6510e60e6eac02a2199d02ebe3e5:api/Migrations/20260223190845_AddingUsers.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

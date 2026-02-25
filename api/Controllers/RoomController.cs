@@ -15,7 +15,7 @@ public class RoomController : ControllerBase
         _roomRepository = roomRepository;
     }
 
-    [Authorize(Roles = IdentitySeeder.Admin + ", " + IdentitySeeder.Employee)]
+    //[Authorize(Roles = IdentitySeeder.Admin + ", " + IdentitySeeder.Employee)]
     [HttpGet("/api/rooms")]
     public async Task<ActionResult<List<ConferenceRoom>>> GetAllRooms()
     {
@@ -23,7 +23,7 @@ public class RoomController : ControllerBase
         return Ok(rooms);
     }
 
-    [Authorize(Roles = IdentitySeeder.Employee)]
+    //[Authorize(Roles = IdentitySeeder.Employee)]
     [HttpGet("/api/rooms/available")]
     public async Task<ActionResult<List<ConferenceRoom>>> GetAvailableRooms([FromQuery] DateTime start, [FromQuery] DateTime end)
     {
