@@ -2,8 +2,8 @@ import mockBookings from "../data/mockData";
 
 export function fetchAllBookings() {
   return new Promise((resolve, reject) => {
-    const delay = Math.floor(Math.random() * 2000) + 500; // 500–2500ms
-    const shouldFail = Math.random() < 0.2; // 20% failure
+    const delay = Math.floor(Math.random() * 2000) + 500; 
+    const shouldFail = Math.random() < 0.2; 
 
     setTimeout(() => {
       if (shouldFail) {

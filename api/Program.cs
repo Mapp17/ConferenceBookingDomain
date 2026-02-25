@@ -20,7 +20,7 @@ var dataDirectory = Path.Combine(
 );
 
 builder.Services.AddDbContext<BookingAppDbContext>(options =>
-options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
+options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<BookingAppDbContext>().AddDefaultTokenProviders();

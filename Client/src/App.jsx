@@ -13,7 +13,6 @@ function App() {
   const [error, setError] = useState(null);
   const [category, setCategory] = useState("All");
 
-  // --- Load bookings from API ---
   const loadBookings = () => {
     setLoading(true);
     setError(null);
@@ -29,18 +28,18 @@ function App() {
       });
   };
 
-  // --- Effect: fetch on mount + when category changes ---
+
   useEffect(() => {
     loadBookings();
-  }, [category]); // disciplined dependency array
+  }, [category]); 
 
-  // --- Filtered bookings ---
+
   const filteredBookings =
     category === "All"
       ? bookings
       : bookings.filter((b) => b.category === category);
 
-  // --- Add booking ---
+  
   const handleAddBooking = (newBooking) => {
     setBookings((prevBookings) => {
       const updatedBookings = [...prevBookings, newBooking];
@@ -49,7 +48,7 @@ function App() {
     });
   };
 
-  // --- Cancel booking ---
+  
   const handleCancelBooking = (id) => {
     setBookings((prev) => {
       const updated = prev.filter((booking) => booking.id !== id);
