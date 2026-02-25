@@ -13,11 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bookinglib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a49322626444846f534f9a608f892db6aa5b453")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a1e716bffeae539c8497cf809da15361bd4c8e9")]
->>>>>>> 4ca33a4ac88a6510e60e6eac02a2199d02ebe3e5
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc4658ff7cab32eaa544363a75a1036babaf6608")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bookinglib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bookinglib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
