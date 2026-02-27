@@ -8,8 +8,21 @@ class BookingService {
         mode: 'cors'
       });
 
+<<<<<<< HEAD
+export function fetchAllBookings() {
+  return new Promise((resolve, reject) => {
+    const delay = Math.floor(Math.random() * 2000) + 500; 
+    const shouldFail = Math.random() < 0.2; 
+
+    setTimeout(() => {
+      if (shouldFail) {
+        reject(new Error("Failed to fetch bookings. Please try again."));
+      } else {
+        resolve(mockBookings);
+=======
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
+>>>>>>> 4ca33a4ac88a6510e60e6eac02a2199d02ebe3e5
       }
 
       const data = await response.json();
