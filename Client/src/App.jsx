@@ -24,50 +24,6 @@ function App() {
   const pageSize = 10;
   const { bookings, loading, error } = useBookings(currentPage, 10);
 
-<<<<<<< HEAD
-  const loadBookings = () => {
-    setLoading(true);
-    setError(null);
-    fetchAllBookings()
-      .then((data) => {
-        setBookings(data);
-        localStorage.setItem("bookings", JSON.stringify(data));
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  };
-
-
-  useEffect(() => {
-    loadBookings();
-  }, [category]); 
-
-
-  const filteredBookings =
-    category === "All"
-      ? bookings
-      : bookings.filter((b) => b.category === category);
-
-  
-  const handleAddBooking = (newBooking) => {
-    setBookings((prevBookings) => {
-      const updatedBookings = [...prevBookings, newBooking];
-      localStorage.setItem("bookings", JSON.stringify(updatedBookings));
-      return updatedBookings;
-    });
-  };
-
-  
-  const handleCancelBooking = (id) => {
-    setBookings((prev) => {
-      const updated = prev.filter((booking) => booking.id !== id);
-      localStorage.setItem("bookings", JSON.stringify(updated));
-      return updated;
-    });
-=======
   const testApiConnection = async () => {
     setIsTestingConnection(true);
     
@@ -115,7 +71,6 @@ function App() {
     } catch {
       return "Invalid date";
     }
->>>>>>> 4ca33a4ac88a6510e60e6eac02a2199d02ebe3e5
   };
 
   const handleCancelBooking = async (id) => {
