@@ -1,7 +1,20 @@
-.footer {
+.app-footer {
+  background-color: rgb(83, 238, 243);
+  border-top: 1px solid #e0e4e8;
+  padding: 1.5rem 2rem;
   margin-top: auto;
-  background-color: #007BFF;
-  color: white;
-  text-align: center;
+}
 
+.footer-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #576263;
+  font-size: 0.9rem;
+}
+
+.footer-version {
+  color: #95a5a6;
 }

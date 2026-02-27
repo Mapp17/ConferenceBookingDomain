@@ -1,10 +1,38 @@
-.navbar {
-  background-color: #007BFF; 
-  color: white;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
+.app-header {
+  background-color: rgb(94, 220, 230);
+  border-bottom: 1px solid #e0e4e8;
+  padding: 1.5rem 2rem;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.header-content h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.header-description {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+}
+
+.connection-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e8f5e9;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  border: 1px solid #c8e6c9;
+}
+
+
+.connection-text {
+  color: #27ae60;
+  font-size: 0.9rem;
+  font-weight: 500;
 }

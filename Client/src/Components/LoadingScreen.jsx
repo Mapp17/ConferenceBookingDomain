@@ -1,4 +1,4 @@
-
+import "../ConferenceBooking.css";
 
 function LoadingScreen() {
   return (

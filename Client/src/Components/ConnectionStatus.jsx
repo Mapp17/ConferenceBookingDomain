@@ -35,14 +35,14 @@ function ConnectionStatus() {
       )}
 
       {isConnected === true && (
-        <span style={{ color: "green", fontWeight: "bold" }}>
-          ● Connected
+        <span style={{ color: "#2ecc71", fontWeight: "bold" }}>
+           Connected
         </span>
       )}
 
       {isConnected === false && (
         <span style={{ color: "red", fontWeight: "bold" }}>
-          ● Backend Offline
+           Backend Offline
         </span>
       )}
     </div>

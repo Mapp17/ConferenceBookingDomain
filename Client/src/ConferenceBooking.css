@@ -52,13 +52,6 @@ body {
   border: 1px solid #c8e6c9;
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #2ecc71;
-  border-radius: 50%;
-  display: inline-block;
-}
 
 .connection-text {
   color: #27ae60;

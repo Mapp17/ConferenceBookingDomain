@@ -4,14 +4,14 @@ import "./BookingCard.css";
 function BookingCard({
   id,
   roomName,
-  startDate,
-  endDate,
-  userName,
+  start,
+  end,
+  userEmail,
   status,
   onCancel
 }) {
   const canCancel = status !== 'Cancelled' && status !== 'Completed';
-  const duration = calculateDuration(startDate, endDate);
+  const duration = calculateDuration(start, end);
 
   return (
     <div className="booking-card">
@@ -26,11 +26,11 @@ function BookingCard({
         <div className="datetime-group">
           <div className="datetime-item">
             <span className="datetime-label">Start</span>
-            <span className="datetime-value">{formatDisplayDate(startDate)}</span>
+            <span className="datetime-value">{formatDisplayDate(start)}</span>
           </div>
           <div className="datetime-item">
             <span className="datetime-label">End</span>
-            <span className="datetime-value">{formatDisplayDate(endDate)}</span>
+            <span className="datetime-value">{formatDisplayDate(end)}</span>
           </div>
           {duration && (
             <div className="duration-badge">
@@ -41,7 +41,7 @@ function BookingCard({
 
         <div className="booker-info">
           <span className="booker-label">Booked by</span>
-          <span className="booker-value">{userName}</span>
+          <span className="booker-value">{userEmail}</span>
         </div>
       </div>
 

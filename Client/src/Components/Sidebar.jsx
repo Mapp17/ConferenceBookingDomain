@@ -1,52 +1,35 @@
+import ConnectionStatus from "./ConnectionStatus";
+import "../ConferenceBooking.css";
 
-
-function Sidebar({ 
-  statusFilter, 
-  onStatusChange, 
-  totalBookings, 
-  statusCounts 
-}) {
-  const filters = ["All", "Pending", "Confirmed", "Cancelled", "Completed"];
-  
-  const getFilterCount = (filter) => {
-    if (filter === "All") return totalBookings;
-    return statusCounts[filter.toLowerCase()] || 0;
-  };
-
+function Sidebar({ statusFilter, setStatusFilter, getStatusCount, apiUrl }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-section">
         <h3 className="sidebar-title">Filters</h3>
         <div className="filter-list">
-          {filters.map((filter) => (
+          {["All", "Pending", "Confirmed", "Cancelled"].map((filter) => (
             <button
               key={filter}
               className={`filter-button ${statusFilter === filter ? 'active' : ''}`}
-              onClick={() => onStatusChange(filter)}
+              onClick={() => setStatusFilter(filter)}
             >
               <span>{filter}</span>
-              <span className="filter-count">{getFilterCount(filter)}</span>
+              <span className="filter-count">{getStatusCount(filter)}</span>
             </button>
           ))}
         </div>
       </div>
 
       <div className="sidebar-section">
-        <h3 className="sidebar-title">Statistics</h3>
-        <div className="stats-grid">
-          <div className="stat-item">
-            <span className="stat-label">Total Bookings</span>
-            <span className="stat-value">{totalBookings}</span>
+        <h3 className="sidebar-title">Quick Info</h3>
+        <div className="info-list">
+          <div className="info-item">
+            <span className="info-label">API Status</span>
+            <span className="info-value online"><ConnectionStatus /></span>
           </div>
-          <div className="stat-item">
-            <span className="stat-label">Active</span>
-            <span className="stat-value">
-              {statusCounts.pending + statusCounts.confirmed}
-            </span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Completed</span>
-            <span className="stat-value">{statusCounts.completed}</span>
+          <div className="info-item">
+            <span className="info-label">Endpoint</span>
+            <span className="info-value endpoint">{apiUrl}</span>
           </div>
         </div>
       </div>

@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
+import BookingList from "./Components/BookingList";
 import "./ConferenceBooking.css";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
+import Sidebar from "./Components/Sidebar"
+import EmptyState from "./Components/EmptyState";
+import { useBookings } from "./hooks/useBookings";
+import LoadingScreen from "./Components/LoadingScreen";
+import ErrorDisplay from "./Components/ErrorDisplay";
+import Header from "./Components/Header";
+
 
 const API_URLS = [
-  "https://localhost:5151",
   "http://localhost:5151"
 
 ];
 
 function App() {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [apiUrl, setApiUrl] = useState(API_URLS[0]);
   const [isTestingConnection, setIsTestingConnection] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("All");
   const pageSize = 10;
+  const { bookings, loading, error } = useBookings(currentPage, 10);
 
   const testApiConnection = async () => {
     setIsTestingConnection(true);
@@ -32,7 +39,6 @@ function App() {
         if (response.ok) {
           setApiUrl(url);
           setIsTestingConnection(false);
-          fetchBookings(url);
           return;
         }
       } catch {
@@ -40,7 +46,7 @@ function App() {
       }
     }
     
-    setError("Unable to connect to the booking service.");
+
     setIsTestingConnection(false);
   };
 
@@ -48,37 +54,7 @@ function App() {
     testApiConnection();
   }, []);
 
-  useEffect(() => {
-    if (apiUrl) {
-      fetchBookings();
-    }
-  }, [currentPage, apiUrl]);
 
-  const fetchBookings = async (urlToUse = apiUrl) => {
-    setLoading(true);
-    
-    try {
-      const url = `${urlToUse}/api/bookings/allbookings?page=${currentPage}&pageSize=${pageSize}`;
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' },
-        mode: 'cors'
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Unable to fetch bookings: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setBookings(data.items || []);
-      setError(null);
-    } catch {
-      setError("Failed to load bookings.");
-      setBookings([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatDisplayDate = (dateString) => {
     if (!dateString) return "Date not available";
@@ -136,142 +112,46 @@ function App() {
   return (
     <div className="app">
       {/* Header */}
-      <header className="app-header">
-        <div className="header-content">
-          <h1>Conference Booking System</h1>
-          <p className="header-description">Manage and track all room bookings</p>
-        </div>
-        <div className="connection-badge">
-          <span className="status-dot"></span>
-          <span className="connection-text">Connected</span>
-        </div>
-      </header>
+      <Navbar/>
 
       {/* Main Layout */}
       <div className="main-layout">
         {/* Sidebar */}
-        <aside className="sidebar">
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">Filters</h3>
-            <div className="filter-list">
-              {["All", "Pending", "Confirmed"].map((filter) => (
-                <button
-                  key={filter}
-                  className={`filter-button ${statusFilter === filter ? 'active' : ''}`}
-                  onClick={() => setStatusFilter(filter)}
-                >
-                  <span>{filter}</span>
-                  <span className="filter-count">{getStatusCount(filter)}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          
-
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">Quick Info</h3>
-            <div className="info-list">
-              <div className="info-item">
-                <span className="info-label">API Status</span>
-                <span className="info-value online">Online</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Endpoint</span>
-                <span className="info-value endpoint">{apiUrl}</span>
-              </div>
-            </div>
-          </div>
-        </aside>
+        <Sidebar
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          getStatusCount={(status) =>{
+            if (status === "All") return bookings.length;
+            return bookings.filter(b => b.status === status).length;
+          } }   
+          apiUrl="http://localhost:5151/api"
+        />
 
         {/* Main Content */}
         <main className="main-content">
           {/* Page Header */}
-          <div className="page-header">
-            <h2 className="page-title">Current Bookings</h2>
-            <div className="pagination-controls">
-              <button 
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="pagination-button"
-              >
-                ← Previous
-              </button>
-              <span className="page-indicator">Page {currentPage}</span>
-              <button 
-                onClick={() => setCurrentPage(p => p + 1)}
-                className="pagination-button"
-              >
-                Next →
-              </button>
-            </div>
-          </div>
+         <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
 
           {/* Content Area */}
           {loading && (
-            <div className="loading-state">
-              <div className="spinner"></div>
-              <p>Loading bookings...</p>
-            </div>
+            <LoadingScreen />
           )}
 
           {error && (
-            <div className="error-state">
-              <p className="error-message">{error}</p>
-              <button onClick={testApiConnection} className="retry-button">
-                Retry Connection
-              </button>
-            </div>
+            <ErrorDisplay error={error} onRetry={() => testApiConnection()} />
           )}
 
           {!loading && !error && (
             <>
               {filteredBookings.length === 0 ? (
-                <div className="empty-state">
-                  <h3>No Bookings Found</h3>
-                  <p>No {statusFilter !== "All" ? statusFilter.toLowerCase() : ""} bookings to display.</p>
-                </div>
+                <EmptyState  statusFilter={statusFilter}/>
               ) : (
-                <div className="bookings-grid">
-                  {filteredBookings.map((booking) => (
-                    <div key={booking.id} className="booking-card">
-                      <div className="card-header">
-                        <h4 className="room-name">{booking.roomName}</h4>
-                        <span className={`status-badge status-${booking.status.toLowerCase()}`}>
-                          {booking.status}
-                        </span>
-                      </div>
-                      
-                      <div className="card-body">
-                        <div className="datetime-group">
-                          <div className="datetime-item">
-                            <span className="datetime-label">Start</span>
-                            <span className="datetime-value">{formatDisplayDate(booking.start)}</span>
-                          </div>
-                          <div className="datetime-item">
-                            <span className="datetime-label">End</span>
-                            <span className="datetime-value">{formatDisplayDate(booking.end)}</span>
-                          </div>
-                        </div>
-
-                        <div className="booker-info">
-                          <span className="booker-label">Booked by</span>
-                          <span className="booker-value">{booking.userEmail}</span>
-                        </div>
-                      </div>
-
-                      {booking.status !== 'Cancelled' && booking.status !== 'Completed' && (
-                        <div className="card-footer">
-                          <button 
-                            onClick={() => handleCancelBooking(booking.id)}
-                            className="cancel-button"
-                          >
-                            Cancel Booking
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                <div>
+                    <BookingList
+                      bookings={filteredBookings}
+                      onCancel={handleCancelBooking}
+                      formatDate={formatDisplayDate}
+                    />
                 </div>
               )}
             </>
@@ -280,12 +160,7 @@ function App() {
       </div>
 
       {/* Footer */}
-      <footer className="app-footer">
-        <div className="footer-content">
-          <p>© 2024 Conference Booking System. All rights reserved.</p>
-          <p className="footer-version">Version 1.0.0</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
