@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using api.Services;
 using api.DTOs;
 using api.Common;
+using Microsoft.AspNetCore.SignalR;
+using api.Hubs;
 
 
 
@@ -19,8 +21,10 @@ namespace Api.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
-        public BookingsController(IBookingService bookingService  )
+        private readonly IHubContext<BookingHub> _hubContext;
+        public BookingsController(IBookingService bookingService, IHubContext<BookingHub> hubContext)
         {
+            _hubContext = hubContext;
             _bookingService = bookingService;
         }
 
@@ -47,6 +51,11 @@ namespace Api.Controllers
             {
                 var userId = dto.UserId; 
                 var result = await _bookingService.CreateBookingAsync(dto, userId);
+
+                await _hubContext.Clients.All.SendAsync(
+                "BookingCreated",
+                    result
+                );
 
                 return CreatedAtAction(nameof(CreateBooking), new { RoomId = result.RoomId }, result);
             }

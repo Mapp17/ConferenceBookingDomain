@@ -5,10 +5,13 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import Sidebar from "./Components/Sidebar"
 import EmptyState from "./Components/EmptyState";
-import { useBookings } from "./hooks/useBookings";
+import { useBookings} from "./hooks/useBookings";
+import { useAuth } from "./hooks/useAuth";
 import LoadingScreen from "./Components/LoadingScreen";
 import ErrorDisplay from "./Components/ErrorDisplay";
 import Header from "./Components/Header";
+import LoginForm from "./Components/LoginForm";
+import BookingForm from "./Components/BookingForm";
 
 
 const API_URLS = [
@@ -21,8 +24,21 @@ function App() {
   const [isTestingConnection, setIsTestingConnection] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("All");
-  const pageSize = 10;
-  const { bookings, loading, error } = useBookings(currentPage, 10);
+  const { bookings, loading, error, createBooking } = useBookings(currentPage, 10);
+  const { login, error: authError } = useAuth();
+  const [showForm, setShowForm] = useState(false);
+
+
+const [isAuthenticated, setIsAuthenticated] = useState(
+  !!localStorage.getItem("token")
+);
+
+const handleLogin = async (credentials) => {
+  const success = await login(credentials);
+  if (success) setIsAuthenticated(true);
+};
+
+
 
   const testApiConnection = async () => {
     setIsTestingConnection(true);
@@ -41,7 +57,7 @@ function App() {
           setIsTestingConnection(false);
           return;
         }
-      } catch {
+      } catch { 
         continue;
       }
     }
@@ -73,20 +89,10 @@ function App() {
     }
   };
 
-  const handleCancelBooking = async (id) => {
-    try {
-      const response = await fetch(`${apiUrl}/api/bookings/${id}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
-      if (response.ok) {
-        fetchBookings();
-      }
-    } catch {
-      setError("Failed to cancel booking.");
-    }
-  };
+        const handleCancelBooking = async (id) => {
+        await cancelBooking(id)};
+            
+
 
   const filteredBookings = statusFilter === "All" 
     ? bookings 
@@ -109,10 +115,23 @@ function App() {
     );
   }
 
+if(!isAuthenticated)
+{
+  return (
+    <div className="login-page">
+      <LoginForm onLogin={handleLogin} error={authError} />
+    </div>
+  );
+  
+}
+else
+{
   return (
     <div className="app">
       {/* Header */}
       <Navbar/>
+       <div className="main-layout">
+    </div>
 
       {/* Main Layout */}
       <div className="main-layout">
@@ -154,6 +173,20 @@ function App() {
                     />
                 </div>
               )}
+                <button
+                  className="pagination-button"
+                  onClick={() => setShowForm(true)}
+                >
+                  + New Booking
+                </button>
+
+                {showForm && (
+                  <BookingForm
+                    onAddBooking={createBooking}
+                    onClose={() => setShowForm(false)}
+                    error={error}
+                  />
+                )}
             </>
           )}
         </main>
@@ -163,6 +196,7 @@ function App() {
       <Footer />
     </div>
   );
+}
 }
 
 export default App;

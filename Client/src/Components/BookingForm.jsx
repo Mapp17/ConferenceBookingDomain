@@ -2,40 +2,38 @@ import { useState } from "react";
 import Button from "./Button";
 import "./BookingForm.css";
 
-function BookingForm({ onAddBooking }) {
-
+function BookingForm({ onSubmit, onClose, error }) {
   const [roomName, setRoomName] = useState("");
-  const [date, setDate] = useState("");
-  const [userName, setUserName] = useState("");
-
+  const [userEmail, setUserEmail] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
 
   const clearForm = () => {
     setRoomName("");
-    setDate("");
-    setUserName("");
+    setUserEmail("");
+    setStart("");
+    setEnd("");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newBooking = {
-      id: Date.now(),
-      roomName: roomName,
-      date: date,
-      userName: userName,
-    };
+    onSubmit({
+      roomName,
+      userEmail,
+      start,
+      end
+    });
 
-    onAddBooking(newBooking);
     clearForm();
   };
 
   return (
-    <form onSubmit={handleSubmit}
-     className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <h2>Create New Booking</h2>
 
       <div>
-        <label>Room Name:</label>
+        <label>Room Name</label>
         <input
           type="text"
           value={roomName}
@@ -45,28 +43,42 @@ function BookingForm({ onAddBooking }) {
       </div>
 
       <div>
-        <label>Date:</label>
+        <label>User Email</label>
         <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+          type="email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
           required
         />
       </div>
 
       <div>
-        <label>User Name:</label>
+        <label>Start Time</label>
         <input
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          type="datetime-local"
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
           required
         />
       </div>
 
-      
+      <div>
+        <label>End Time</label>
+        <input
+          type="datetime-local"
+          value={end}
+          onChange={(e) => setEnd(e.target.value)}
+          required
+        />
+      </div>
+
+      {error && <p className="error">{error}</p>}
+
+      <div className="form-actions">
         <Button type="button" label="Clear" onClick={clearForm} />
+        <Button type="button" label="Cancel" onClick={onClose} />
         <Button type="submit" label="Create Booking" />
+      </div>
     </form>
   );
 }
