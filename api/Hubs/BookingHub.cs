@@ -4,6 +4,9 @@ namespace api.Hubs
 {
     public class BookingHub : Hub
     {
-        // No methods needed for now (server → client only)
+        public async Task NotifyBookingCreated(object booking)
+        {
+            await Clients.All.SendAsync("BookingCreated", booking);
+        }
     }
 }
