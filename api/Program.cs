@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using api.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddSignalR();
 
 // Configure JWT authentication Swagger to include the Authorization header
 builder.Services.AddSwaggerGen(options =>
@@ -105,6 +107,7 @@ builder.Services.AddCors ( options =>
     {
         policy.WithOrigins("http://localhost:5173","http://127.0.0.1:5173")
         .AllowAnyHeader()
+        .AllowCredentials()
         .WithMethods("GET", "POST", "PUT", "DELETE");
     });
 });
@@ -131,8 +134,10 @@ using (var scope = app.Services.CreateScope())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
+app.MapHub<BookingHub>("/hubs/bookings");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
