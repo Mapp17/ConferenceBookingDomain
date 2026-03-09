@@ -13,6 +13,12 @@ function BookingCard({
   const canCancel = status !== 'Cancelled' && status !== 'Completed';
   const duration = calculateDuration(start, end);
 
+  const handleCancelClick = () => {
+    if (window.confirm(`Are you sure you want to cancel this booking for ${roomName}?`)) {
+      onCancel(id);
+    }
+  };
+
   return (
     <div className="booking-card">
       <div className="card-header">
@@ -48,7 +54,7 @@ function BookingCard({
       {canCancel && (
         <div className="card-footer">
           <button
-            onClick={() => onCancel(id)}
+            onClick={handleCancelClick}
             className="cancel-button"
           >
             Cancel Booking
