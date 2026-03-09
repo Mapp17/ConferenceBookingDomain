@@ -1,80 +1,53 @@
-import { useState, useEffect } from "react";
-import BookingList from "./Components/BookingList";
-import "./ConferenceBooking.css";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
-import Sidebar from "./Components/Sidebar"
-import EmptyState from "./Components/EmptyState";
-import { useBookings} from "./hooks/useBookings";
-import { useAuth } from "./hooks/useAuth";
-import LoadingScreen from "./Components/LoadingScreen";
-import ErrorDisplay from "./Components/ErrorDisplay";
-import Header from "./Components/Header";
-import LoginForm from "./Components/LoginForm";
-import BookingForm from "./Components/BookingForm";
-
-
-const API_URLS = [
-  "http://localhost:5151"
-
-];
+import { useState } from 'react';
+import './ConferenceBooking.css';
+import { useBookings } from './hooks/useBookings';
+import { useAuth } from './hooks/useAuth';
+import Navbar from './Components/Navbar';
+import Sidebar from './Components/Sidebar';
+import Header from './Components/Header';
+import BookingList from './Components/BookingList';
+import BookingForm from './Components/BookingForm';
+import Footer from './Components/Footer';
+import LoadingScreen from './Components/LoadingScreen';
+import ErrorDisplay from './Components/ErrorDisplay';
+import EmptyState from './Components/EmptyState';
+import LoginForm from './Components/LoginForm';
 
 function App() {
-  const [apiUrl, setApiUrl] = useState(API_URLS[0]);
-  const [isTestingConnection, setIsTestingConnection] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [statusFilter, setStatusFilter] = useState("All");
-  const { bookings, loading, error, createBooking } = useBookings(currentPage, 10);
-  const { login, error: authError } = useAuth();
+  const [statusFilter, setStatusFilter] = useState('All');
   const [showForm, setShowForm] = useState(false);
+  
+  const { 
+    bookings, 
+    loading, 
+    error: bookingsError, 
+    createBooking, 
+    cancelBooking 
+  } = useBookings(currentPage, 10);
+  
+  const { 
+    login, 
+    logout, 
+    error: authError, 
+    isAuthenticated,
+    user
+  } = useAuth();
 
+  // Filter bookings based on selected status
+  const filteredBookings = statusFilter === 'All' 
+    ? bookings 
+    : bookings.filter(b => b.status === statusFilter);
 
-const [isAuthenticated, setIsAuthenticated] = useState(
-  !!localStorage.getItem("token")
-);
-
-const handleLogin = async (credentials) => {
-  const success = await login(credentials);
-  if (success) setIsAuthenticated(true);
-};
-
-
-
-  const testApiConnection = async () => {
-    setIsTestingConnection(true);
-    
-    for (const url of API_URLS) {
-      try {
-        const testUrl = `${url}/api/bookings/allbookings?page=1&pageSize=1`;
-        const response = await fetch(testUrl, { 
-          method: 'GET',
-          mode: 'cors',
-          headers: { 'Accept': 'application/json' }
-        });
-        
-        if (response.ok) {
-          setApiUrl(url);
-          setIsTestingConnection(false);
-          return;
-        }
-      } catch { 
-        continue;
-      }
-    }
-    
-
-    setIsTestingConnection(false);
+  // Get count for each status filter
+  const getStatusCount = (status) => {
+    if (status === 'All') return bookings.length;
+    return bookings.filter(b => b.status === status).length;
   };
 
-  useEffect(() => {
-    testApiConnection();
-  }, []);
-
-
-
+  // Format date for display
   const formatDisplayDate = (dateString) => {
-    if (!dateString) return "Date not available";
-    
+    if (!dateString) return 'Date not available';
     try {
       const date = new Date(dateString);
       return date.toLocaleString('en-US', {
@@ -85,108 +58,105 @@ const handleLogin = async (credentials) => {
         minute: '2-digit'
       });
     } catch {
-      return "Invalid date";
+      return 'Invalid date';
     }
   };
 
-        const handleCancelBooking = async (id) => {
-        await cancelBooking(id)};
-            
-
-
-  const filteredBookings = statusFilter === "All" 
-    ? bookings 
-    : bookings.filter(b => b.status === statusFilter);
-
-  const getStatusCount = (status) => {
-    if (status === "All") return bookings.length;
-    return bookings.filter(b => b.status === status).length;
+  // Handle cancel booking
+  const handleCancelBooking = async (id) => {
+    try {
+      await cancelBooking(id);
+    } catch (err) {
+      // Error handled in hook
+    }
   };
 
-  if (isTestingConnection) {
+  // Handle create booking
+  const handleCreateBooking = async (bookingData) => {
+    try {
+      await createBooking(bookingData);
+      setShowForm(false);
+    } catch (err) {
+      // Error handled in hook
+    }
+  };
+
+  // Show login if not authenticated
+  if (!isAuthenticated) {
     return (
-      <div className="loading-screen">
-        <div className="loading-content">
-          <h2>Conference Booking System</h2>
-          <p>Connecting to service...</p>
-          <div className="spinner"></div>
-        </div>
+      <div className="login-page">
+        <LoginForm onLogin={login} error={authError} />
       </div>
     );
   }
 
-if(!isAuthenticated)
-{
-  return (
-    <div className="login-page">
-      <LoginForm onLogin={handleLogin} error={authError} />
-    </div>
-  );
-  
-}
-else
-{
+  // Show loading screen while fetching data
+  if (loading && bookings.length === 0) {
+    return <LoadingScreen />;
+  }
+
   return (
     <div className="app">
-      {/* Header */}
-      <Navbar/>
-       <div className="main-layout">
-    </div>
+      {/* Navbar with user info and logout */}
+      <Navbar onLogout={logout} />
 
-      {/* Main Layout */}
+      {/* Main layout with sidebar and content */}
       <div className="main-layout">
-        {/* Sidebar */}
+        {/* Sidebar with filters and connection status */}
         <Sidebar
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
-          getStatusCount={(status) =>{
-            if (status === "All") return bookings.length;
-            return bookings.filter(b => b.status === status).length;
-          } }   
-          apiUrl="http://localhost:5151/api"
+          getStatusCount={getStatusCount}
+          apiUrl={import.meta.env.VITE_API_BASE_URL || 'http://localhost:5151'}
         />
 
-        {/* Main Content */}
+        {/* Main content area */}
         <main className="main-content">
-          {/* Page Header */}
-         <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          {/* Header with pagination */}
+          <Header 
+            currentPage={currentPage} 
+            setCurrentPage={setCurrentPage}
+          />
 
-          {/* Content Area */}
-          {loading && (
-            <LoadingScreen />
+          {/* Error display if any */}
+          {bookingsError && (
+            <ErrorDisplay 
+              error={bookingsError} 
+              onRetry={() => window.location.reload()} 
+            />
           )}
 
-          {error && (
-            <ErrorDisplay error={error} onRetry={() => testApiConnection()} />
-          )}
-
-          {!loading && !error && (
+          {/* Booking list or empty state */}
+          {!bookingsError && (
             <>
               {filteredBookings.length === 0 ? (
-                <EmptyState  statusFilter={statusFilter}/>
+                <EmptyState statusFilter={statusFilter} />
               ) : (
-                <div>
-                    <BookingList
-                      bookings={filteredBookings}
-                      onCancel={handleCancelBooking}
-                      formatDate={formatDisplayDate}
-                    />
-                </div>
+                <BookingList
+                  bookings={filteredBookings}
+                  onCancel={handleCancelBooking}
+                  formatDate={formatDisplayDate}
+                />
               )}
+              
+              {/* Create booking button */}
+              <div className="action-bar">
                 <button
-                  className="pagination-button"
+                  className="create-button"
                   onClick={() => setShowForm(true)}
                 >
                   + New Booking
                 </button>
+              </div>
 
-                {showForm && (
-                  <BookingForm
-                    onAddBooking={createBooking}
-                    onClose={() => setShowForm(false)}
-                    error={error}
-                  />
-                )}
+              {/* Booking form modal */}
+              {showForm && (
+                <BookingForm
+                  onSubmit={handleCreateBooking}
+                  onClose={() => setShowForm(false)}
+                  error={bookingsError}
+                />
+              )}
             </>
           )}
         </main>
@@ -196,7 +166,6 @@ else
       <Footer />
     </div>
   );
-}
 }
 
 export default App;
