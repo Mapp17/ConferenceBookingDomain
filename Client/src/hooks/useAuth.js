@@ -21,7 +21,7 @@ export function useAuth() {
     setError(null);
     
     try {
-      console.log('🔐 Login attempt with username:', credentials.username);
+      console.log(' Login attempt with username:', credentials.username);
       
       const response = await apiClient.post('/auth/login', {
         username: credentials.username,
@@ -42,7 +42,7 @@ export function useAuth() {
       setLoading(false);
       return true;
     } catch (err) {
-      console.error('❌ Login error:', err);
+      console.error(' Login error:', err);
       
       if (err.response?.status === 401) {
         setError('Invalid username or password');

@@ -50,8 +50,8 @@ export function useBookings(page = 1, pageSize = 10) {
       .build();
 
     connection.start()
-      .then(() => console.log('✅ SignalR connected'))
-      .catch(err => console.error('❌ SignalR error:', err));
+      .then(() => console.log(' SignalR connected'))
+      .catch(err => console.error(' SignalR error:', err));
 
     connection.on('BookingCreated', (newBooking) => {
       setBookings(prev => [newBooking, ...prev]);
@@ -84,7 +84,6 @@ export function useBookings(page = 1, pageSize = 10) {
     try {
       const response = await apiClient.post('/bookings', bookingData);
       
-      // SignalR will add it, but we can add optimistically
       setBookings(prev => {
         const exists = prev.some(b => b.id === response.id);
         if (!exists) {
@@ -95,7 +94,7 @@ export function useBookings(page = 1, pageSize = 10) {
       
       return response;
     } catch (err) {
-      console.error('❌ Create error:', err);
+      console.error(' Create error:', err);
       
       if (err.response?.status === 409) {
         setError('Room already booked for this time');
@@ -124,7 +123,7 @@ export function useBookings(page = 1, pageSize = 10) {
       );
       
     } catch (err) {
-      console.error('❌ Cancel error:', err);
+      console.error(' Cancel error:', err);
       setError('Failed to cancel booking');
       throw err;
     }
