@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL ;
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5151/api";
 
 export default function ConnectionStatus() {
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
 
   const pingBackend = async () => {
     try {
-      const response = await fetch(`${API_URL}/bookings`);
+      const response = await fetch(`${API_URL}/Bookings`);
       setIsConnected(response.ok);
     } catch {
       setIsConnected(false);
