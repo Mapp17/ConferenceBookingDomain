@@ -18,7 +18,7 @@ export default function Sidebar({
   const filters = ['All', 'Pending', 'Confirmed', 'Cancelled'];
 
   return (
-    <aside className="w-64 flex-shrink-0">
+    <aside className=" flex-shrink-0">
       {/* Filters Section */}
       <div className="bg-white rounded-xl p-6 mb-6 border border-gray-200 shadow-sm">
         <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
