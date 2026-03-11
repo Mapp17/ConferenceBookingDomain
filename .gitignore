@@ -1,0 +1,43 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Rider / JetBrains
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ASP.NET
+appsettings.Development.json
+
+# Node (if you add React/Next later)
+node_modules/
+.next/
+
+# Coverage / Testing
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish output
+publish/
+
+# Temporary files
+*.tmp
+*.temp

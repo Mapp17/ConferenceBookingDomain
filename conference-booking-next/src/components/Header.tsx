@@ -1,43 +1,52 @@
 'use client';
 
-import { useEffect } from 'react';
+import Link from 'next/link';
+import { useAuth } from '../hooks/useAuth';
 
-interface HeaderProps {
-  currentPage: number;
-  setCurrentPage: (page: number | ((prev: number) => number)) => void;
-}
-
-export default function Header({ currentPage, setCurrentPage }: HeaderProps) {
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      console.log('Checking for updates...');
-    }, 3000);
-
-    return () => clearInterval(intervalId);
-  }, []);
+export default function Header() {
+  const { user, logout, isAuthenticated } = useAuth();
 
   return (
-    <div className="flex justify-between items-center mb-8">
-      <h2 className="text-2xl font-semibold text-gray-800">Current Bookings</h2>
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 
-                     hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed 
-                     transition-colors"
-        >
-          ← Previous
-        </button>
-        <span className="text-gray-600">Page {currentPage}</span>
-        <button
-          onClick={() => setCurrentPage(p => p + 1)}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 
-                     hover:bg-gray-50 transition-colors"
-        >
-          Next →
-        </button>
+    <header className="bg-blue-200 border-b border-gray-200 py-4 px-6">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <Link href="/" className="text-xl font-bold text-gray-900">
+          Conference Booking
+        </Link>
+        
+
+        <nav className="flex items-center gap-6">
+          <Link href="/" className="text-gray-600 hover:text-gray-900">
+            Home
+          </Link>
+          
+          {isAuthenticated ? (
+            <>
+              <Link href="/dashboard" className="text-gray-600 hover:text-gray-900">
+                Dashboard
+              </Link>
+              <Link href="/bookings" className="text-gray-600 hover:text-gray-900">
+                Bookings
+              </Link>
+              <span className="text-sm text-gray-700 px-3 py-1 bg-gray-100 rounded-full">
+                Hi, {user?.email}
+              </span>
+              <button
+                onClick={logout}
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors text-sm"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-sm"
+            >
+              Login
+            </Link>
+          )}
+        </nav>
       </div>
-    </div>
+    </header>
   );
 }
