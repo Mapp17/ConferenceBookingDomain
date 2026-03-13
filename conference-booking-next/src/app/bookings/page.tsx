@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBookings } from '../../hooks/useBookings';
 import BookingList from '../../components/BookingList';
 import BookingForm from '../../components/BookingForm';
+import SearchInput from '../../components/SearchInput';
+import SortControls from '../../components/SortControls';
 import * as signalR from '@microsoft/signalr';
 import RouteGuard from '../../components/RouteGuard';
 import { useAuth } from '../../hooks/useAuth';
@@ -33,14 +35,75 @@ export default function BookingsPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [showForm, setShowForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'date' | 'room'>('date');
   const [signalRStatus, setSignalRStatus] = useState<'connected' | 'disconnected' | 'connecting'>('connecting');
   const [notifications, setNotifications] = useState<Array<{ id: number; message: string; type: 'success' | 'info' | 'warning' }>>([]);
   const { bookings, loading, error, fetchBookings, cancelBooking } = useBookings(1, 10);
 
-  const addNotification = (message: string, type: 'success' | 'info' | 'warning' = 'info') => {
-    setNotifications(prev => [...prev, { id: Date.now(), message, type }]);
-  };
+  // ===== PERFORMANCE OPTIMIZATION 1: Memoized filtered count =====
+  const filteredBookingsCount = useMemo(() => {
+    console.log('🧮 Recalculating filtered count...');
+    return bookings.filter(b => 
+      b.roomName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      b.userEmail.toLowerCase().includes(searchTerm.toLowerCase())
+    ).length;
+  }, [bookings, searchTerm]);
 
+  // ===== PERFORMANCE OPTIMIZATION 2: Memoized sorted bookings =====
+  const sortedBookings = useMemo(() => {
+    console.log('🔄 Sorting bookings by:', sortBy);
+    const sorted = [...bookings];
+    
+    if (sortBy === 'date') {
+      sorted.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
+    } else {
+      sorted.sort((a, b) => a.roomName.localeCompare(b.roomName));
+    }
+    
+    return sorted;
+  }, [bookings, sortBy]);
+
+  // ===== PERFORMANCE OPTIMIZATION 3: Stable callbacks with useCallback =====
+  const addNotification = useCallback((message: string, type: 'success' | 'info' | 'warning' = 'info') => {
+    setNotifications(prev => [...prev, { id: Date.now(), message, type }]);
+  }, []);
+
+  const removeNotification = useCallback((id: number) => {
+    setNotifications(prev => prev.filter(t => t.id !== id));
+  }, []);
+
+  const handleCancelBooking = useCallback(async (id: number) => {
+    if (!confirm('Cancel this booking?')) return;
+    try {
+      await cancelBooking(id);
+      addNotification('Booking cancelled', 'success');
+    } catch {
+      addNotification('Failed to cancel booking', 'warning');
+    }
+  }, [cancelBooking, addNotification]);
+
+  const handleSearch = useCallback((term: string) => {
+    setSearchTerm(term);
+  }, []);
+
+  const handleSortChange = useCallback((sort: 'date' | 'room') => {
+    setSortBy(sort);
+  }, []);
+
+  const toggleForm = useCallback(() => {
+    setShowForm(prev => !prev);
+  }, []);
+
+  const handleBookingCreated = useCallback(() => {
+    addNotification('Booking created', 'success');
+  }, [addNotification]);
+
+  const handleFormClose = useCallback(() => {
+    setShowForm(false);
+  }, []);
+
+  // ===== SIGNALR CONNECTION (unchanged but dependencies fixed) =====
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/login');
@@ -104,17 +167,7 @@ export default function BookingsPage() {
     return () => {
       connection.stop();
     };
-  }, [isAuthenticated, router, fetchBookings]);
-
-  const handleCancelBooking = async (id: number) => {
-    if (!confirm('Cancel this booking?')) return;
-    try {
-      await cancelBooking(id);
-      addNotification('Booking cancelled', 'success');
-    } catch {
-      addNotification('Failed to cancel booking', 'warning');
-    }
-  };
+  }, [isAuthenticated, router, fetchBookings, addNotification]);
 
   if (loading) {
     return (
@@ -147,13 +200,15 @@ export default function BookingsPage() {
   return (
     <RouteGuard>
       <div className="p-8 min-h-screen bg-gray-50">
+        {/* Toast Notifications */}
         <div className="fixed bottom-4 right-4 z-50 space-y-2">
           {notifications.map(n => (
-            <Toast key={n.id} message={n.message} type={n.type} onClose={() => setNotifications(prev => prev.filter(t => t.id !== n.id))} />
+            <Toast key={n.id} message={n.message} type={n.type} onClose={() => removeNotification(n.id)} />
           ))}
         </div>
 
         <div className="max-w-7xl mx-auto">
+          {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
               <h1 className="text-3xl font-bold">Bookings</h1>
@@ -167,28 +222,53 @@ export default function BookingsPage() {
             </div>
 
             <div className="flex gap-3">
-              <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+              <button 
+                onClick={toggleForm} 
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+              >
                 {showForm ? 'Hide' : '+ New Booking'}
               </button>
-              <button onClick={fetchBookings} className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+              <button 
+                onClick={fetchBookings} 
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+              >
                 Refresh
               </button>
             </div>
           </div>
 
+          {/* Search and Sort Controls */}
+          <div className="mb-6 flex gap-4">
+            <SearchInput onSearch={handleSearch} />
+            <SortControls sortBy={sortBy} onSortChange={handleSortChange} />
+          </div>
+
+          {/* Stats Display - uses memoized value */}
+          <div className="mb-4 text-sm text-gray-600">
+            Showing {filteredBookingsCount} of {bookings.length} bookings
+          </div>
+
+          {/* Booking Form */}
           {showForm && (
             <div className="mb-8">
-              <BookingForm onBookingCreated={() => addNotification('Booking created', 'success')} onClose={() => setShowForm(false)} />
+              <BookingForm 
+                onBookingCreated={handleBookingCreated}
+                onClose={handleFormClose}
+              />
             </div>
           )}
 
+          {/* Bookings List - uses memoized sortedBookings */}
           {bookings.length === 0 ? (
             <div className="bg-white p-12 rounded-xl border text-center">
               <p className="text-gray-500">No bookings</p>
               <p className="text-gray-400 text-sm mt-2">Click "New" to create one</p>
             </div>
           ) : (
-            <BookingList bookings={bookings} onCancel={handleCancelBooking} />
+            <BookingList 
+              bookings={sortedBookings} 
+              onCancel={handleCancelBooking} 
+            />
           )}
         </div>
 
